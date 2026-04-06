@@ -1,4 +1,4 @@
-
+import { ArrowRight } from "lucide-react";
 
 const projects = [
   {
@@ -80,7 +80,7 @@ export const ProjectsSection = () => {
                     href={project.githubUrl}
                     className="text-foreground/80 rounded-lg hover:text-primary transition-colors duration-300"
                   >
-                    GitHub
+                    Github
                   </a>
                 </div>
               </div>
@@ -90,10 +90,10 @@ export const ProjectsSection = () => {
         <div className="text-center mt-12">
           <a
             href="https://github.com/Manas-Pal003"
-            className="cosnic-button w-fit flex items-center justify-center mx-auto gap-2"
+            className="cosmic-button w-fit flex items-center justify-center mx-auto gap-2"
             target="_blank"
           >
-            Check My GitHub
+            Check My GitHub <ArrowRight size={16} />
           </a>
         </div>
       </div>

@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLinkedin, faInstagram, faFacebook } from "@fortawesome/free-brands-svg-icons";
 
 export const ContactSection = () => {
+
   return (
     <section id="contact" className="py-24 px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-5xl">
@@ -68,8 +69,8 @@ export const ContactSection = () => {
 
             <div className="pt-8">
               <h4 className="font-medium mb-4">Connect With Me</h4>
-              <div className="flex space-x-4 mt-4">
-                <a href="#" target="_blank">
+              <div className="flex space-x-4 justify-center">
+                <a href="https://www.linkedin.com/in/manas-pal-a60674309/ " target="_blank">
                   <FontAwesomeIcon icon={faLinkedin} className="w-6 h-6" />
                 </a>
                 <a href="#" target="_blank">
@@ -83,7 +84,7 @@ export const ContactSection = () => {
           </div>
 
           <div className="bg-card p-8 rounded-lg shadow-xs">
-            <h3 className="text-2xl font-semibold mb-6">Send Me A Message</h3>
+            <h3 className="text-2xl font-semibold mb-6">Send Me a Message</h3>
             <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">

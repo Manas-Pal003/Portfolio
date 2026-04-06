@@ -26,13 +26,12 @@ export const AboutSection = () => {
               landscape.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center">
-              <a href="#contact" className="cosmic button">
-                {" "}
+              <a href="#contact" className="cosmic-button px-6 py-2 rounded-full border border-primary hover:bg-primary/10 transition-colors duration-300">
                 Get in Touch
               </a>
 
               <a
-                href=""
+                href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSA0YvSXXhXDhEkDqqkrfA3E9yH056r15yPIQ&s"
                 className="px-6 py-2 rounded-full border border-primary text-primary hover:bg-primary/10 transition-colors duration-300"
               >
                 Download CV
