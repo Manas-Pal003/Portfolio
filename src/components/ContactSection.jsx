@@ -70,7 +70,7 @@ export const ContactSection = () => {
             <div className="pt-8">
               <h4 className="font-medium mb-4">Connect With Me</h4>
               <div className="flex space-x-4 justify-center">
-                <a href="https://www.linkedin.com/in/manas-pal-a60674309/ " target="_blank">
+                <a href="https://www.linkedin.com/in/manas-pal-a60674309/" target="_blank" rel="noreferrer">
                   <FontAwesomeIcon icon={faLinkedin} className="w-6 h-6" />
                 </a>
                 <a href="#" target="_blank">
