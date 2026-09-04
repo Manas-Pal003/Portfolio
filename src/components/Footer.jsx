@@ -2,7 +2,7 @@ import { ArrowUp } from "lucide-react";
 
 export const Footer = () => {
     return (
-        <footer className="bg-secondary/30 py-12 px-4 bg-card realtive border-t border-border mt-12 pt-8 flex flex-wrap justify-between">
+        <footer className="bg-card/40 backdrop-blur-md relative py-12 px-4 border-t border-border mt-12 pt-8 flex flex-wrap justify-between">
                 <p className="text-sm text-muted-foreground">
                     &copy; {new Date().getFullYear()} Manas Pal. All rights reserved.
                 </p>

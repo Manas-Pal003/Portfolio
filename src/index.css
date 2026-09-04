@@ -9,6 +9,8 @@
   --color-primary-foreground: hsl(var(--primary-foreground));
 
   --color-card: hsl(var(--card));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;
@@ -17,7 +19,7 @@
   --animate-fade-in-delay-2: fade-out 0.7s ease-in-out 0.4s forwards;
   --animate-fade-in-delay-3: fade-out 0.7s ease-in-out 0.6s forwards;
   --animate-fade-in-delay-4: fade-out 0.7s ease-in-out 0.8s forwards;
-  --animate-meteor: meteor 5s linear infinite;
+  --animate-meteor: meteor 9s linear infinite;
 
   @keyframes float {
     0% {
@@ -53,14 +55,17 @@
   }
   @keyframes meteor {
     0% {
-      transform: translateX(0) rotate(215deg);
+      transform: rotate(215deg) translateX(0);
+      opacity: 0;
+    }
+    8% {
       opacity: 1;
     }
-    70% {
+    75% {
       opacity: 1;
     }
     100% {
-      transform: translateX(-500px) rotate(215deg);
+      transform: rotate(215deg) translateX(-1000px);
       opacity: 0;
     }
   }
@@ -72,6 +77,8 @@
     --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
     --primary: 250 47% 60%;
     --primary-foreground: 210 40% 98%;
@@ -82,6 +89,8 @@
     --background: 222 47% 4%;
     --foreground: 213 31% 91%;
     --card: 222 47% 8%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
     --primary: 250 65% 65%;
     --primary-foreground: 213 31% 91%;
     --border: 217 33% 20%;
@@ -140,12 +149,15 @@
 }
 
 @utility star {
-  @apply absolute rounded-full;
-   box-shadow: 0 0 10px 2px rgba(255,255,255,0.4);
+  @apply absolute rounded-full bg-purple-500/70 dark:bg-white;
+  box-shadow: 0 0 8px 1px rgba(167, 139, 250, 0.4);
 }
 @utility meteor {
-  @apply absolute bg-linear-to-r from-white via-white to-transparent rounded-full;
-  box-shadow: 0 0 10px 5pxrgba(255,255,255,0.3);
+  @apply absolute bg-linear-to-r from-purple-500/80 via-purple-400/50 to-transparent dark:from-white dark:via-white dark:to-transparent rounded-full pointer-events-none;
+  transform: rotate(215deg);
+  opacity: 0;
+  animation-fill-mode: both;
+  box-shadow: 0 0 10px 3px rgba(167, 139, 250, 0.4);
 }
 
 #root{

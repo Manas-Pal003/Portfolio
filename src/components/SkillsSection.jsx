@@ -1,73 +1,204 @@
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-
-
-const skills = [
-    //Frontend
-  { name: "HTML/CSS", level: 95, category: "Frontend" },
-  { name: "JavaScript", level: 90, category: "Frontend" },
-  { name: "React", level: 90, category: "Frontend" },
-  { name: "TypeCript", level: 85, category: "Frontend" },
-  { name: "tailwind CSS", level: 90, category: "Frontend" },
-  { name: "Next.js", level: 80, category: "Frontend" },
-
-  //Backend
-  { name: "Node.js", level: 80, category: "Backend" },
-  { name: "Express.js", level: 75, category: "Backend" },
-  { name: "MongoDB", level: 70, category: "Backend" },
-  { name: "SQL", level: 70, category: "Backend" },
-
-  //Tools
-  { name: "Git", level: 90, category: "Tools" },
-  { name: "GitHub", level: 90, category: "Tools" },
-  { name: "VS Code", level: 95, category: "Tools" },
-  { name: "Antigravity", level: 85, category: "Tools" },
-  { name: "IntelliJ", level: 85, category: "Tools" },
-];
-
-const categories = ["All", "Frontend", "Backend", "Tools"];
+import { motion } from "framer-motion";
+import { listTools } from "../data";
 
 export const SkillsSection = () => {
-    const [activeCategory, setActiveCategory] = useState("All");
-    const filteredSkills = activeCategory === "All" ? skills : skills.filter(skill => skill.category === activeCategory);
-    return (
-        <section id="skills" className="py-24 px-4 relative bg-secondary/30">
-            <div className="container mx-auto max-w-5xl">
-                <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-                    My <span className="text-primary"> Skills</span>
-                </h2>
+  return (
+    <section
+      id="skills"
+      className="
+        relative
+        overflow-hidden
+        bg-transparent
+        px-6
+        py-24
+        md:py-32
+      "
+    >
+      {/* Ambient background glow */}
+      <div className="pointer-events-none absolute -left-40 top-10 h-[350px] w-[350px] rounded-full bg-purple-500/5 blur-[130px] dark:bg-purple-500/10 z-0" />
+      <div className="pointer-events-none absolute -right-40 bottom-0 h-[350px] w-[350px] rounded-full bg-cyan-500/5 blur-[130px] dark:bg-cyan-500/10 z-0" />
 
-                <div className="flex flex-wrap justify-center gap-4 mb-12">
-                    {categories.map((category,key) => (
-                        <button
-                            key={key}
-                            onClick={() => setActiveCategory(category)}
-                            className= {cn("px-5 py-2 rounded-full transition-colors duration-300 capitalize", activeCategory === category ? "bg-primary text-primary-foreground" : "bg-secondary/70 text-foreground hover:bg-secondary/80 hover:text-primary")}
-                        >
-                            {category}
-                        </button>
-                    ))}
-                </div>
+      <div className="relative z-10 mx-auto max-w-7xl">
+        {/* HEADING */}
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.7,
+          }}
+        >
+          <h2
+            className="
+              text-4xl
+              font-bold
+              leading-tight
+              tracking-tight
+              text-foreground
+              sm:text-5xl
+            "
+          >
+            Tools &amp; Technologies
+          </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredSkills.map((skill, key) => (
-                        <div key={key} className="bg-card p-6 rounded-lg shadow-xs card-hover">
-                            <div className="text-left mb--4">
-                                <h3 className="font-semibold text-lg">{skill.name}</h3>
-                            </div>
-                            <div className="w-full bg-secondary/50 h-2 rounded-full overflow-hidden">
-                                <div className="bg-primary h-full rounded-full transition-all duration-500" style={{width: `${skill.level}%`}}>
+          <p
+            className="
+              mt-3
+              text-base
+              text-muted-foreground
+              sm:text-lg
+            "
+          >
+            My Profesional Skills
+          </p>
+        </motion.div>
 
-                                </div>
-                            </div>
-                            <div className="text-right mt-1">
-                                <span className="text-sm text-muted-foreground">{skill.level}%</span>
-                            </div>
-                        </div>
+        {/* TOOLS GRID */}
+        <div
+          className="
+            mt-14
+            grid
+            grid-cols-1
+            gap-4
+            sm:grid-cols-2
+            md:grid-cols-3
+            lg:grid-cols-4
+          "
+        >
+          {listTools.map((tool, index) => (
+            <motion.div
+              key={tool.id}
+              initial={{
+                opacity: 0,
+                y: 30,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{
+                once: true,
+              }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.05,
+              }}
+              whileHover={{
+                y: -5,
+              }}
+              className="
+                group
+                flex
+                items-center
+                gap-4
+                rounded-xl
+                border
+                border-border
+                bg-card/90
+                backdrop-blur-xs
+                p-4
+                shadow-xs
+                transition-all
+                duration-300
 
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
+                hover:border-purple-400/40
+                hover:shadow-lg
+                hover:shadow-purple-500/5
+
+                dark:bg-white/[0.03]
+                dark:border-white/[0.08]
+                dark:hover:bg-white/[0.06]
+                dark:hover:border-purple-400/30
+                dark:hover:shadow-purple-500/10
+              "
+            >
+              {/* TOOL IMAGE */}
+              <div
+                className="
+                  flex
+                  h-14
+                  w-14
+                  shrink-0
+                  items-center
+                  justify-center
+                  rounded-lg
+                  border
+                  border-border
+                  bg-muted
+                  p-2.5
+                  transition-all
+                  duration-300
+
+                  group-hover:border-purple-400/30
+                  group-hover:bg-purple-500/10
+                  dark:border-white/[0.06]
+                  dark:bg-white/[0.04]
+                "
+              >
+                <img
+                  src={tool.gambar}
+                  alt={tool.nama}
+                  className="
+                    h-full
+                    w-full
+                    object-contain
+                    transition-transform
+                    duration-300
+                    group-hover:scale-110
+                  "
+                />
+              </div>
+
+              {/* TOOL INFORMATION */}
+              <div
+                className="
+                  flex
+                  min-w-0
+                  flex-col
+                  overflow-hidden
+                "
+              >
+                <h3
+                  className="
+                    truncate
+                    text-base
+                    font-semibold
+                    text-foreground
+                    transition-colors
+                    duration-200
+                    group-hover:text-purple-600
+                    dark:group-hover:text-purple-300
+                    sm:text-lg
+                  "
+                >
+                  {tool.nama}
+                </h3>
+
+                <p
+                  className="
+                    mt-1
+                    truncate
+                    text-sm
+                    text-muted-foreground
+                  "
+                >
+                  {tool.ket}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };
+
+export default SkillsSection;

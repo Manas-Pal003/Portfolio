@@ -12,6 +12,7 @@ import {
   faLinkedin,
   faReact,
   faNodeJs,
+  faTailwindCss,
 } from "@fortawesome/free-brands-svg-icons";
 import { motion } from "framer-motion";
 import Hero3D from "./three/Hero3D";
@@ -27,36 +28,32 @@ export const HeroSection = () => {
       icon: <FontAwesomeIcon icon={faReact} className="w-3.5 h-3.5 text-cyan-400" />,
     },
     {
+      name: "Next.js",
+      border: "border-white/20",
+      text: "text-neutral-200",
+      bg: "bg-white/5",
+      hoverShadow: "hover:shadow-[0_0_15px_rgba(255,255,255,0.25)]",
+      icon: (
+        <svg className="w-3.5 h-3.5 text-white fill-current" viewBox="0 0 24 24">
+          <path d="M18.665 21.978C16.758 23.255 14.465 24 12 24 5.377 24 0 18.623 0 12S5.377 0 12 0s12 5.377 12 12c0 3.583-1.574 6.801-4.067 9.001L9.219 7.2H7.2v9.596h1.615V9.251l9.85 12.727Zm-3.332-8.533 1.6 2.061V7.2h-1.6v6.245Z" />
+        </svg>
+      ),
+    },
+    {
+      name: "Tailwind CSS",
+      border: "border-sky-500/30",
+      text: "text-sky-300",
+      bg: "bg-sky-500/10",
+      hoverShadow: "hover:shadow-[0_0_15px_rgba(14,165,233,0.35)]",
+      icon: <FontAwesomeIcon icon={faTailwindCss} className="w-3.5 h-3.5 text-sky-400" />,
+    },
+    {
       name: "Node.js",
       border: "border-emerald-500/30",
       text: "text-emerald-300",
       bg: "bg-emerald-500/10",
       hoverShadow: "hover:shadow-[0_0_15px_rgba(16,185,129,0.35)]",
       icon: <FontAwesomeIcon icon={faNodeJs} className="w-3.5 h-3.5 text-emerald-400" />,
-    },
-    {
-      name: "Express.js",
-      border: "border-gray-500/30",
-      text: "text-gray-200",
-      bg: "bg-gray-500/10",
-      hoverShadow: "hover:shadow-[0_0_15px_rgba(255,255,255,0.2)]",
-      icon: (
-        <span className="font-bold text-[10px] px-1 py-0.2 rounded bg-white/10 text-white border border-white/15 leading-none">
-          ex
-        </span>
-      ),
-    },
-    {
-      name: "MongoDB",
-      border: "border-green-500/30",
-      text: "text-green-300",
-      bg: "bg-green-500/10",
-      hoverShadow: "hover:shadow-[0_0_15px_rgba(34,197,94,0.35)]",
-      icon: (
-        <svg className="w-3.5 h-3.5 text-green-400 fill-current" viewBox="0 0 24 24">
-          <path d="M17.193 9.555c-1.264-5.24-4.804-7.555-5.193-7.555 0 0-3.93 2.315-5.193 7.555-1.42 5.882 1.942 10.428 5.193 12.445 3.251-2.017 6.613-6.563 5.193-12.445zm-5.193 10.373c-2.313-1.464-4.707-4.887-3.642-9.3 1.066-4.414 3.642-6.512 3.642-6.512s2.576 2.098 3.642 6.512c1.065 4.413-1.329 7.836-3.642 9.3z" />
-        </svg>
-      ),
     },
     {
       name: "AI",
@@ -117,9 +114,7 @@ export const HeroSection = () => {
 
           {/* DESCRIPTION */}
           <p className="text-base sm:text-lg text-gray-300 max-w-xl leading-relaxed text-left">
-            Final-year Computer Science student and Full Stack Developer
-            building modern web applications, AI-powered solutions, and
-            scalable backend systems using React, Node.js, and databases.
+            I build modern, scalable web experiences and AI-powered solutions that turn ideas into meaningful digital products.
           </p>
 
           {/* TECH STACK */}

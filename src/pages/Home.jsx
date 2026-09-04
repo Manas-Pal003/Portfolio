@@ -1,5 +1,5 @@
-import { ThemeToggle } from '@/components/ThemeToggle'
-import { StarBackground } from '@/components/StarBackground'
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { StarBackground } from '@/components/StarBackground';
 import { Navbar } from '../components/Navbar';
 import { HeroSection } from '../components/HeroSection';
 import { AboutSection } from '../components/AboutSection';
@@ -10,18 +10,18 @@ import { Footer } from '../components/Footer';
 
 export const Home = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      {/* {Theme Toggle} */}
+    <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+      {/* Theme Toggle Button */}
       <ThemeToggle />
 
-      {/* Background Effects */}
-      <StarBackground />
+      {/* Global Fixed Star Background across all pages while scrolling */}
+      <StarBackground className="fixed inset-0 pointer-events-none z-0 overflow-hidden" />
 
-      {/* Navbar*/}
+      {/* Navigation Bar */}
       <Navbar />
 
-      {/* Main Content */}
-      <main>
+      {/* Main Content Sections */}
+      <main className="relative z-10">
         <HeroSection />
         <AboutSection />
         <SkillsSection />
@@ -29,10 +29,10 @@ export const Home = () => {
         <ContactSection />
       </main>
 
+      {/* Footer */}
       <Footer />
     </div>
   );
-}
+};
 
-export default Home
-
+export default Home;
