@@ -145,8 +145,10 @@ export const HeroSection = () => {
             </a>
 
             <a
-              href="/resume.pdf"
-              className="px-6 py-2.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md flex items-center gap-2 hover:bg-white/10 hover:border-white/40 transition duration-300 text-sm font-medium text-white"
+              href="/Manas Pal - Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-2.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md flex items-center gap-2 hover:bg-white/10 hover:border-white/40 transition duration-300 text-sm font-medium text-white cursor-pointer"
             >
               Download CV
               <Download size={18} />

@@ -1,18 +1,68 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView, animate } from "framer-motion";
 import { ArrowUpRight, Download, Sparkles } from "lucide-react";
+
+// Smooth animated number counter component
+const Counter = ({
+  value,
+  duration = 2,
+  decimals = 0,
+  prefix = "",
+  suffix = "",
+}) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-40px" });
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    const controls = animate(0, value, {
+      duration,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate: (latest) => {
+        setDisplayValue(latest);
+      },
+      onComplete: () => {
+        setDisplayValue(value);
+      },
+    });
+
+    return () => controls.stop();
+  }, [isInView, value, duration]);
+
+  const formattedNumber =
+    decimals > 0
+      ? displayValue.toFixed(decimals)
+      : Math.round(displayValue);
+
+  return (
+    <span ref={ref} className="inline-flex items-center">
+      {prefix}
+      {formattedNumber}
+      {suffix}
+    </span>
+  );
+};
 
 export const AboutSection = () => {
   const stats = [
     {
-      value: "3+",
+      numericValue: 3,
+      suffix: "+",
+      decimals: 0,
       label: "Projects Finished",
     },
     {
-      value: "20+",
+      numericValue: 20,
+      suffix: "+",
+      decimals: 0,
       label: "Technologies Worked With",
     },
     {
-      value: "8.35",
+      numericValue: 8.35,
+      suffix: "",
+      decimals: 2,
       label: "CGPA",
     },
   ];
@@ -64,8 +114,15 @@ export const AboutSection = () => {
               <span className="font-semibold text-foreground">
                 Manas Kumar Pal
               </span>
-              , a B.Tech graduate and Full Stack Developer passionate about
-              building modern, high-performance web applications with intuitive,
+              , a{" "}
+              <span className="font-semibold bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(168,85,247,0.35)]">
+                B.Tech
+              </span>{" "}
+              graduate and{" "}
+              <span className="font-medium text-foreground">
+                Full Stack Developer
+              </span>{" "}
+              passionate about building modern, high-performance web applications with intuitive,
               engaging user experiences.
             </p>
 
@@ -100,8 +157,9 @@ export const AboutSection = () => {
               <ArrowUpRight className="w-4 h-4" />
             </a>
             <a
-              href="/resume.pdf"
-              download
+              href="/Manas Pal - Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-6 py-2.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md flex items-center gap-2 hover:bg-white/10 hover:border-white/40 transition duration-300 text-sm font-medium text-white"
             >
               Download CV
@@ -109,7 +167,7 @@ export const AboutSection = () => {
             </a>
           </div> */}
 
-          {/* STATS */}
+          {/* STATS COUNTER */}
           <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm overflow-hidden">
             {stats.map((stat, index) => (
               <motion.div
@@ -118,19 +176,23 @@ export const AboutSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.12 }}
-                className={`p-6 sm:p-8 flex flex-col items-start ${
+                className={`group p-6 sm:p-8 flex flex-col items-start hover:bg-white/[0.04] transition-all duration-300 ${
                   index !== 0
                     ? "border-t border-white/10 sm:border-l sm:border-t-0"
                     : ""
                 }`}
               >
-                <div className="text-4xl sm:text-5xl font-extrabold tracking-tight">
-                  <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
-                    {stat.value}
+                <div className="text-4xl sm:text-5xl font-extrabold tracking-tight transition-transform duration-300 group-hover:scale-105">
+                  <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(168,85,247,0.35)]">
+                    <Counter
+                      value={stat.numericValue}
+                      decimals={stat.decimals}
+                      suffix={stat.suffix}
+                    />
                   </span>
                 </div>
 
-                <p className="mt-2 text-xs sm:text-sm font-medium uppercase tracking-[0.08em] text-muted-foreground">
+                <p className="mt-2 text-xs sm:text-sm font-medium uppercase tracking-[0.08em] text-muted-foreground group-hover:text-neutral-200 transition-colors">
                   {stat.label}
                 </p>
               </motion.div>
