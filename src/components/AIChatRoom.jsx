@@ -12,6 +12,11 @@ import {
   ArrowUpRight,
   Copy,
   Check,
+  Key,
+  Settings,
+  X,
+  ExternalLink,
+  Cpu,
 } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,172 +25,139 @@ import {
   faFacebook,
   faGithub,
 } from "@fortawesome/free-brands-svg-icons";
+import {
+  generateAIResponse,
+  getApiKey,
+  setApiKey,
+  hasLiveApiKey,
+} from "../services/aiService";
 
-// Knowledge base and conversational response engine for Manas AI
-const getAIResponse = (query) => {
-  const q = query.toLowerCase().trim();
+// Formats inline markdown: [links](url), **bold**, `code`, *italic*
+const formatInlineText = (str) => {
+  if (!str) return null;
+  const tokens = [];
+  let remaining = str;
 
-  // Greetings
-  if (
-    q.includes("hi") ||
-    q.includes("hello") ||
-    q.includes("hey") ||
-    q.includes("sup") ||
-    q.includes("good morning") ||
-    q.includes("good evening")
-  ) {
-    return {
-      text: "Hello there! 👋 I'm Manas's AI Portfolio Assistant. How can I help you today? Feel free to ask about his projects, technical skills, background, or availability for work!",
-      suggestions: [
-        "What are your top projects?",
-        "What tech stack do you use?",
-        "Are you open for hire?",
-      ],
-    };
+  while (remaining.length > 0) {
+    // Markdown link: [text](url)
+    const linkMatch = remaining.match(/^\[([^\]]+)\]\(([^)]+)\)/);
+    if (linkMatch) {
+      tokens.push(
+        <a
+          key={tokens.length}
+          href={linkMatch[2]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-cyan-400 hover:text-cyan-300 underline font-medium inline-flex items-center gap-0.5"
+        >
+          {linkMatch[1]}
+        </a>
+      );
+      remaining = remaining.slice(linkMatch[0].length);
+      continue;
+    }
+
+    // Bold: **text**
+    const boldMatch = remaining.match(/^\*\*([^*]+)\*\*/);
+    if (boldMatch) {
+      tokens.push(
+        <strong key={tokens.length} className="font-semibold text-foreground">
+          {boldMatch[1]}
+        </strong>
+      );
+      remaining = remaining.slice(boldMatch[0].length);
+      continue;
+    }
+
+    // Inline Code: `text`
+    const codeMatch = remaining.match(/^`([^`]+)`/);
+    if (codeMatch) {
+      tokens.push(
+        <code
+          key={tokens.length}
+          className="rounded bg-purple-500/10 px-1.5 py-0.5 text-[11px] font-mono text-purple-300 border border-purple-500/20"
+        >
+          {codeMatch[1]}
+        </code>
+      );
+      remaining = remaining.slice(codeMatch[0].length);
+      continue;
+    }
+
+    // Italic: *text*
+    const italicMatch = remaining.match(/^\*([^*]+)\*/);
+    if (italicMatch) {
+      tokens.push(
+        <em key={tokens.length} className="italic text-muted-foreground">
+          {italicMatch[1]}
+        </em>
+      );
+      remaining = remaining.slice(italicMatch[0].length);
+      continue;
+    }
+
+    // Regular characters until next markdown symbol
+    const nextSpecial = remaining.search(/\[|\*\*|`|\*/);
+    if (nextSpecial === -1) {
+      tokens.push(remaining);
+      remaining = "";
+    } else if (nextSpecial === 0) {
+      tokens.push(remaining[0]);
+      remaining = remaining.slice(1);
+    } else {
+      tokens.push(remaining.slice(0, nextSpecial));
+      remaining = remaining.slice(nextSpecial);
+    }
   }
 
-  // Projects
-  if (
-    q.includes("project") ||
-    q.includes("work") ||
-    q.includes("portfolio") ||
-    q.includes("built") ||
-    q.includes("app") ||
-    q.includes("devpulse") ||
-    q.includes("taskflow") ||
-    q.includes("aurastore")
-  ) {
-    return {
-      text: "Manas has built several high-impact projects:\n\n🚀 **DevPulse AI**: An intelligent developer workspace & code assistant built with Next.js, React, TypeScript, and AI APIs.\n\n📊 **TaskFlow Pro**: An enterprise agile Kanban & collaboration dashboard using React, Node.js, Express, and MongoDB.\n\n🛍️ **AuraStore Fintech**: A luxury commerce and revenue platform built with React, Node.js, PostgreSQL, and Stripe.\n\nYou can explore these in detail in the Projects section above!",
-      suggestions: [
-        "What technologies do you know?",
-        "How can I contact Manas?",
-        "Are you available for hire?",
-      ],
-    };
-  }
+  return tokens;
+};
 
-  // Skills & Technologies
-  if (
-    q.includes("skill") ||
-    q.includes("tech") ||
-    q.includes("stack") ||
-    q.includes("language") ||
-    q.includes("react") ||
-    q.includes("framework") ||
-    q.includes("code")
-  ) {
-    return {
-      text: "Manas's core technical toolkit covers the modern full-stack ecosystem:\n\n✨ **Frontend**: React.js, Next.js, Vite, TypeScript, JavaScript (ES6+), Tailwind CSS, Framer Motion, HTML5/CSS3\n⚡ **Backend & Databases**: Node.js, Express, PHP, MySQL, MongoDB, PostgreSQL, Firebase\n🎨 **Design & 3D**: Three.js / React Three Fiber, Figma, Canva, Adobe Illustrator\n🛠️ **DevOps & Tools**: Git, GitHub, VS Code, REST APIs",
-      suggestions: [
-        "Tell me about your projects",
-        "Are you available for work?",
-        "What is your education?",
-      ],
-    };
-  }
+// Formats message block (lists, paragraphs, and inline markdown)
+const FormattedMessage = ({ content }) => {
+  if (!content) return null;
+  const lines = content.split("\n");
+  const elements = [];
+  let currentList = [];
 
-  // Availability / Hiring / Jobs / Freelance
-  if (
-    q.includes("hire") ||
-    q.includes("available") ||
-    q.includes("job") ||
-    q.includes("work with") ||
-    q.includes("freelance") ||
-    q.includes("internship") ||
-    q.includes("contract") ||
-    q.includes("role") ||
-    q.includes("opportunity")
-  ) {
-    return {
-      text: "Yes, absolutely! 🟢 Manas is currently **open for full-time opportunities, high-impact freelance projects, and collaborations** as a Frontend or Full Stack Developer.\n\nHe responds quickly to new project inquiries and job opportunities. You can fill out the contact form on the right or reach him directly via email at manaspal28313@gmail.com!",
-      suggestions: [
-        "Give me your contact info",
-        "What are your top projects?",
-        "Tell me about your tech stack",
-      ],
-    };
-  }
-
-  // Contact / Email / Phone / Location
-  if (
-    q.includes("contact") ||
-    q.includes("email") ||
-    q.includes("phone") ||
-    q.includes("reach") ||
-    q.includes("call") ||
-    q.includes("location") ||
-    q.includes("where") ||
-    q.includes("address")
-  ) {
-    return {
-      text: "Here are all the ways to get in touch with Manas:\n\n📧 **Email**: manaspal28313@gmail.com\n📞 **Phone**: +91 9749425251\n📍 **Location**: Kolkata, West Bengal, India\n💼 **LinkedIn**: linkedin.com/in/manas-pal-a60674309\n🐙 **GitHub**: github.com/Manas-Pal003\n\nOr feel free to send a message directly using the form on the right!",
-      suggestions: [
-        "Are you open for hire?",
-        "What projects have you finished?",
-      ],
-    };
-  }
-
-  // Education / Bio / Background / About
-  if (
-    q.includes("who are you") ||
-    q.includes("about") ||
-    q.includes("manas") ||
-    q.includes("education") ||
-    q.includes("college") ||
-    q.includes("cgpa") ||
-    q.includes("degree") ||
-    q.includes("background")
-  ) {
-    return {
-      text: "Manas Pal is a passionate Full Stack Developer and Creative Technologist based in Kolkata, India. He holds a strong academic record (CGPA: 8.35) in Computer Science and has delivered 3+ full-scale web applications using over 20 modern technologies.\n\nHe loves building scalable web applications with delightful user interfaces, 3D animations, and smooth performance.",
-      suggestions: [
-        "What are your top skills?",
-        "What projects have you finished?",
-        "How can I contact Manas?",
-      ],
-    };
-  }
-
-  // Resume / CV
-  if (q.includes("resume") || q.includes("cv")) {
-    return {
-      text: "You can download Manas's updated Resume/CV directly from the Hero or About sections above (look for the 'Download CV' button), or send him an email at manaspal28313@gmail.com to request the latest version!",
-      suggestions: [
-        "Are you available for hire?",
-        "What are your top skills?",
-      ],
-    };
-  }
-
-  // Thanks / Appreciation
-  if (
-    q.includes("thank") ||
-    q.includes("awesome") ||
-    q.includes("cool") ||
-    q.includes("great") ||
-    q.includes("nice")
-  ) {
-    return {
-      text: "You're very welcome! 😊 If you have any project ideas or want to discuss collaborating, don't hesitate to drop a message in the form on the right. Have a fantastic day!",
-      suggestions: [
-        "What projects have you built?",
-        "How can I contact Manas?",
-      ],
-    };
-  }
-
-  // Fallback intelligent response
-  return {
-    text: `That's an interesting question! While I am Manas's dedicated portfolio AI, I can best assist you with his web development projects, skills (React, Node, Three.js, etc.), availability for hire, or contact information.\n\nWould you like to explore any of these topics, or send Manas a message directly?`,
-    suggestions: [
-      "Tell me about your projects",
-      "What are your top skills?",
-      "How do I contact Manas?",
-      "Are you available for work?",
-    ],
+  const flushList = () => {
+    if (currentList.length > 0) {
+      elements.push(
+        <ul
+          key={`list-${elements.length}`}
+          className="my-1.5 space-y-1 list-disc pl-4 text-xs sm:text-sm text-foreground/90"
+        >
+          {currentList.map((item, i) => (
+            <li key={i}>{formatInlineText(item)}</li>
+          ))}
+        </ul>
+      );
+      currentList = [];
+    }
   };
+
+  lines.forEach((line, idx) => {
+    const trimmed = line.trim();
+    if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+      currentList.push(trimmed.slice(2));
+    } else if (/^\d+\.\s/.test(trimmed)) {
+      currentList.push(trimmed.replace(/^\d+\.\s+/, ""));
+    } else {
+      flushList();
+      if (trimmed === "") {
+        elements.push(<div key={`gap-${idx}`} className="h-1.5" />);
+      } else {
+        elements.push(
+          <p key={`p-${idx}`} className="text-xs sm:text-sm leading-relaxed">
+            {formatInlineText(line)}
+          </p>
+        );
+      }
+    }
+  });
+
+  flushList();
+  return <div className="space-y-1">{elements}</div>;
 };
 
 export const AIChatRoom = () => {
@@ -194,9 +166,10 @@ export const AIChatRoom = () => {
     {
       id: 1,
       sender: "ai",
-      text: "Hi! 👋 I'm Manas's AI Assistant. Ask me anything about his projects, tech stack, experience, or hire availability!",
+      text: "Hi there! 👋 I'm Manas's AI Portfolio Assistant. Ask me anything about his full-stack projects, core technical skills, academic background, or availability for hire!",
       time: "Just now",
       suggestions: [
+        "🎓 College & Education",
         "🚀 Top Projects",
         "🛠️ Tech Stack",
         "💼 Open for hire?",
@@ -207,12 +180,24 @@ export const AIChatRoom = () => {
   const [inputVal, setInputVal] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedMessageId, setCopiedMessageId] = useState(null);
+
+  // API Key modal state
+  const [isKeyModalOpen, setIsKeyModalOpen] = useState(false);
+  const [hasApiKey, setHasApiKey] = useState(hasLiveApiKey());
+  const [apiKeyInput, setApiKeyInput] = useState(getApiKey());
+  const [keyFeedback, setKeyFeedback] = useState("");
 
   const chatContainerRef = useRef(null);
   const isInitialMount = useRef(true);
   const nextIdRef = useRef(10);
 
-  // Auto-scroll within the chat container only when messages update (prevents page jump on refresh)
+  // Sync API key status on mount
+  useEffect(() => {
+    setHasApiKey(hasLiveApiKey());
+  }, []);
+
+  // Auto-scroll within the chat container only when messages update
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
@@ -226,7 +211,7 @@ export const AIChatRoom = () => {
     }
   }, [messages, isTyping, activeTab]);
 
-  const handleSendMessage = (textToSend) => {
+  const handleSendMessage = async (textToSend) => {
     const query = (textToSend || inputVal).trim();
     if (!query || isTyping) return;
 
@@ -237,23 +222,40 @@ export const AIChatRoom = () => {
       time: "Just now",
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    // Append user message immediately
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setInputVal("");
     setIsTyping(true);
 
-    // Simulate natural AI thinking time (400ms - 800ms)
-    setTimeout(() => {
-      const response = getAIResponse(query);
+    try {
+      // Call AI Service (Gemini Live API or Deep Local Knowledge Engine)
+      const response = await generateAIResponse(updatedMessages, query);
+
       const aiMessage = {
         id: nextIdRef.current++,
         sender: "ai",
         text: response.text,
-        suggestions: response.suggestions,
+        suggestions: response.suggestions || [],
+        source: response.source || "local",
+        note: response.note || null,
         time: "Just now",
       };
+
       setMessages((prev) => [...prev, aiMessage]);
+    } catch (err) {
+      console.error("AI Response error:", err);
+      const errorMessage = {
+        id: nextIdRef.current++,
+        sender: "ai",
+        text: "I ran into a temporary issue processing that request. Please try again, or reach out to Manas directly at manaspal28313@gmail.com!",
+        suggestions: ["Top Projects", "Tech Stack", "Contact Info"],
+        time: "Just now",
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
       setIsTyping(false);
-    }, 600);
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -268,9 +270,10 @@ export const AIChatRoom = () => {
       {
         id: nextIdRef.current++,
         sender: "ai",
-        text: "Conversation reset! 👋 What would you like to know about Manas?",
+        text: "Conversation reset! 👋 What would you like to know about Manas Kumar Pal?",
         time: "Just now",
         suggestions: [
+          "🎓 College & Education",
           "🚀 Top Projects",
           "🛠️ Tech Stack",
           "💼 Open for hire?",
@@ -284,6 +287,38 @@ export const AIChatRoom = () => {
     navigator.clipboard.writeText("manaspal28313@gmail.com");
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
+  };
+
+  const handleCopyMessage = (msgId, text) => {
+    navigator.clipboard.writeText(text);
+    setCopiedMessageId(msgId);
+    setTimeout(() => setCopiedMessageId(null), 2000);
+  };
+
+  const handleSaveApiKey = () => {
+    setApiKey(apiKeyInput);
+    const keyActive = hasLiveApiKey();
+    setHasApiKey(keyActive);
+    setKeyFeedback(
+      keyActive
+        ? "Gemini API key saved! Live AI mode activated."
+        : "Default Smart Portfolio AI restored."
+    );
+    setTimeout(() => {
+      setKeyFeedback("");
+      setIsKeyModalOpen(false);
+    }, 1500);
+  };
+
+  const handleClearApiKey = () => {
+    setApiKey("");
+    setApiKeyInput("");
+    setHasApiKey(false);
+    setKeyFeedback("API key cleared. Default Smart Portfolio AI restored.");
+    setTimeout(() => {
+      setKeyFeedback("");
+      setIsKeyModalOpen(false);
+    }, 1500);
   };
 
   return (
@@ -304,22 +339,44 @@ export const AIChatRoom = () => {
           </div>
 
           <div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               <span className="text-sm font-bold text-foreground">
                 Manas AI
               </span>
-              <span className="rounded-md bg-purple-500/10 px-1.5 py-0.2 text-[10px] font-semibold text-purple-500 dark:text-purple-300">
-                Agent
-              </span>
+              {/* Status Badge: Gemini Live vs Local Portfolio AI */}
+              <button
+                type="button"
+                onClick={() => {
+                  setApiKeyInput(getApiKey());
+                  setIsKeyModalOpen(true);
+                }}
+                title="Click to configure Gemini API Key"
+                className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold transition-all ${
+                  hasApiKey
+                    ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25"
+                    : "bg-purple-500/10 text-purple-400 border border-purple-500/20 hover:bg-purple-500/20"
+                }`}
+              >
+                {hasApiKey ? (
+                  <>
+                    <Sparkles className="h-2.5 w-2.5 text-emerald-400" />
+                    <span>Gemini Live</span>
+                  </>
+                ) : (
+                  <>
+                    <Cpu className="h-2.5 w-2.5 text-purple-400" />
+                    <span>Portfolio AI</span>
+                  </>
+                )}
+              </button>
             </div>
             <p className="text-[11px] text-muted-foreground flex items-center gap-1">
-              <Sparkles className="h-3 w-3 text-purple-400" />
-              <span>Ask anything about Manas</span>
+              <span>Ask anything about Manas & his work</span>
             </p>
           </div>
         </div>
 
-        {/* View Switcher Tabs & Reset */}
+        {/* View Switcher Tabs, Key Settings & Reset */}
         <div className="flex items-center gap-1.5">
           <div className="flex items-center rounded-xl border border-border/80 bg-background/80 p-0.5 text-xs font-medium">
             <button
@@ -349,15 +406,32 @@ export const AIChatRoom = () => {
           </div>
 
           {activeTab === "chat" && (
-            <button
-              type="button"
-              onClick={handleResetChat}
-              title="Reset conversation"
-              aria-label="Reset conversation"
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/80 text-muted-foreground transition-all hover:border-purple-400/50 hover:bg-purple-500/10 hover:text-purple-400"
-            >
-              <RotateCcw className="h-3.5 w-3.5" />
-            </button>
+            <>
+              {/* API Key settings modal trigger */}
+              <button
+                type="button"
+                onClick={() => {
+                  setApiKeyInput(getApiKey());
+                  setIsKeyModalOpen(true);
+                }}
+                title="Configure Gemini API Key"
+                aria-label="Configure Gemini API Key"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/80 text-muted-foreground transition-all hover:border-purple-400/50 hover:bg-purple-500/10 hover:text-purple-400"
+              >
+                <Key className="h-3.5 w-3.5" />
+              </button>
+
+              {/* Reset Conversation */}
+              <button
+                type="button"
+                onClick={handleResetChat}
+                title="Reset conversation"
+                aria-label="Reset conversation"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/80 text-muted-foreground transition-all hover:border-purple-400/50 hover:bg-purple-500/10 hover:text-purple-400"
+              >
+                <RotateCcw className="h-3.5 w-3.5" />
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -378,7 +452,7 @@ export const AIChatRoom = () => {
                 }`}
               >
                 <div
-                  className={`flex gap-2.5 max-w-[88%] sm:max-w-[80%] ${
+                  className={`flex gap-2.5 max-w-[90%] sm:max-w-[85%] ${
                     msg.sender === "user" ? "flex-row-reverse" : "flex-row"
                   }`}
                 >
@@ -398,14 +472,44 @@ export const AIChatRoom = () => {
                   </div>
 
                   {/* Message Bubble */}
-                  <div
-                    className={`rounded-2xl px-4 py-3 text-xs sm:text-sm leading-relaxed ${
-                      msg.sender === "user"
-                        ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md shadow-purple-600/20 rounded-tr-sm"
-                        : "bg-background/80 border border-border/80 text-foreground backdrop-blur-sm shadow-sm rounded-tl-sm whitespace-pre-line"
-                    }`}
-                  >
-                    {msg.text}
+                  <div className="group relative">
+                    <div
+                      className={`rounded-2xl px-4 py-3 text-xs sm:text-sm leading-relaxed ${
+                        msg.sender === "user"
+                          ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md shadow-purple-600/20 rounded-tr-sm"
+                          : "bg-background/80 border border-border/80 text-foreground backdrop-blur-sm shadow-sm rounded-tl-sm"
+                      }`}
+                    >
+                      {msg.sender === "user" ? (
+                        <p className="whitespace-pre-line">{msg.text}</p>
+                      ) : (
+                        <FormattedMessage content={msg.text} />
+                      )}
+
+                      {/* AI Sub-note if any */}
+                      {msg.note && (
+                        <p className="mt-2 text-[10px] text-muted-foreground/80 italic border-t border-border/40 pt-1">
+                          {msg.note}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Copy button on AI responses */}
+                    {msg.sender === "ai" && (
+                      <button
+                        type="button"
+                        onClick={() => handleCopyMessage(msg.id, msg.text)}
+                        title="Copy message"
+                        aria-label="Copy message text"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity absolute top-2 right-2 p-1 rounded-md bg-background/90 text-muted-foreground hover:text-foreground border border-border/80 shadow-sm"
+                      >
+                        {copiedMessageId === msg.id ? (
+                          <Check className="h-3 w-3 text-emerald-400" />
+                        ) : (
+                          <Copy className="h-3 w-3" />
+                        )}
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -416,7 +520,9 @@ export const AIChatRoom = () => {
                       <button
                         key={idx}
                         type="button"
-                        onClick={() => handleSendMessage(sug.replace(/^[^\w]+/, ""))}
+                        onClick={() =>
+                          handleSendMessage(sug.replace(/^[^\w]+/, ""))
+                        }
                         className="rounded-full border border-purple-500/20 bg-purple-500/5 px-2.5 py-1 text-[11px] font-medium text-purple-600 transition-all hover:border-purple-400 hover:bg-purple-500/15 dark:text-purple-300"
                       >
                         {sug}
@@ -437,7 +543,11 @@ export const AIChatRoom = () => {
                   <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-purple-400" />
                   <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-pink-400 [animation-delay:0.2s]" />
                   <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-cyan-400 [animation-delay:0.4s]" />
-                  <span className="ml-1 text-[11px]">Manas AI is thinking...</span>
+                  <span className="ml-1 text-[11px]">
+                    {hasApiKey
+                      ? "Generating response via Gemini AI..."
+                      : "Thinking..."}
+                  </span>
                 </div>
               </div>
             )}
@@ -451,7 +561,7 @@ export const AIChatRoom = () => {
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask about projects, skills, hire availability..."
+                placeholder="Ask about projects, tech stack, hiring, or contact..."
                 className="w-full bg-transparent text-xs sm:text-sm text-foreground outline-none placeholder:text-muted-foreground"
               />
               <button
@@ -468,9 +578,21 @@ export const AIChatRoom = () => {
                 <Send className="h-3.5 w-3.5" />
               </button>
             </div>
-            <p className="mt-1.5 text-center text-[10px] text-muted-foreground">
-              Powered by Manas's Portfolio Knowledge Assistant
-            </p>
+            <div className="mt-1.5 flex items-center justify-between px-1 text-[10px] text-muted-foreground">
+              {/* <span>
+                {hasApiKey ? "⚡ Powered by Google Gemini" : "🤖 Smart Portfolio AI Engine"}
+              </span> */}
+              {/* <button
+                type="button"
+                onClick={() => {
+                  setApiKeyInput(getApiKey());
+                  setIsKeyModalOpen(true);
+                }}
+                className="text-purple-400 hover:text-purple-300 transition-colors underline"
+              >
+                {hasApiKey ? "Manage Key" : "Add Gemini Key"}
+              </button> */}
+            </div>
           </div>
         </div>
       )}
@@ -598,6 +720,87 @@ export const AIChatRoom = () => {
             <MessageSquare className="h-3.5 w-3.5" />
             <span>Switch to AI Chatroom</span>
           </button>
+        </div>
+      )}
+
+      {/* API KEY SETTINGS MODAL */}
+      {isKeyModalOpen && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md p-4">
+          <div className="w-full max-w-sm rounded-2xl border border-purple-500/30 bg-card p-5 shadow-2xl shadow-purple-950/40 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-3 border-b border-border/80">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-purple-500/10 text-purple-400">
+                  <Key className="h-4 w-4" />
+                </div>
+                <h4 className="text-sm font-bold text-foreground">
+                  AI Model Settings
+                </h4>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsKeyModalOpen(false)}
+                className="text-muted-foreground hover:text-foreground p-1"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="mt-3.5 space-y-3 text-xs">
+              <p className="text-muted-foreground leading-relaxed">
+                Connect your free <strong className="text-foreground">Google Gemini API key</strong> for unlimited dynamic conversational answers. If not set, the built-in smart portfolio assistant answers automatically.
+              </p>
+
+              <div>
+                <label className="block text-[11px] font-medium text-foreground mb-1">
+                  Gemini API Key
+                </label>
+                <input
+                  type="password"
+                  value={apiKeyInput}
+                  onChange={(e) => setApiKeyInput(e.target.value)}
+                  placeholder="AIzaSy..."
+                  className="w-full rounded-xl border border-border/80 bg-background/80 px-3 py-2 text-xs text-foreground outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 font-mono"
+                />
+              </div>
+
+              <div className="flex items-center justify-between text-[11px]">
+                <a
+                  href="https://aistudio.google.com/app/apikey"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-cyan-400 hover:underline"
+                >
+                  <span>Get free key at Google AI Studio</span>
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              </div>
+
+              {keyFeedback && (
+                <div className="rounded-lg bg-purple-500/10 border border-purple-500/20 p-2 text-center text-[11px] font-medium text-purple-300">
+                  {keyFeedback}
+                </div>
+              )}
+
+              <div className="flex items-center gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={handleSaveApiKey}
+                  className="flex-1 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 py-2 text-xs font-semibold text-white shadow-md hover:opacity-90 transition-opacity"
+                >
+                  Save & Apply
+                </button>
+                {hasApiKey && (
+                  <button
+                    type="button"
+                    onClick={handleClearApiKey}
+                    className="rounded-xl border border-border/80 px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -1,23 +1,66 @@
 // 
 
 import { useState } from "react";
-import {
-  Send,
-  ArrowUpRight,
-  Copy,
-  Check,
-} from "lucide-react";
-
+import { Send, Check, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { AIChatRoom } from "./AIChatRoom";
 
 export const ContactSection = () => {
-  const [copied, setCopied] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [status, setStatus] = useState("idle"); // 'idle' | 'sending' | 'sent' | 'error'
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText("manaspal28313@gmail.com");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      return;
+    }
+
+    setStatus("sending");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/957bd0149a166f07b500e479e56c4b50", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          message: formData.message.trim(),
+          _subject: `New Portfolio Message from ${formData.name.trim()}`,
+          _replyto: formData.email.trim(),
+          _captcha: "false",
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.success === "false" || data.success === false) {
+        throw new Error(data.message || "Failed to send message");
+      }
+
+      setStatus("sent");
+      setFormData({ name: "", email: "", message: "" });
+      setTimeout(() => setStatus("idle"), 4000);
+    } catch (err) {
+      setErrorMessage(err?.message || "Failed to send. Try again");
+      setStatus("error");
+      setTimeout(() => {
+        setStatus("idle");
+        setErrorMessage("");
+      }, 5000);
+    }
   };
 
   return (
@@ -32,9 +75,7 @@ export const ContactSection = () => {
         md:py-32
       "
     >
-
       {/* BACKGROUND GLOW */}
-
       <div
         className="
           pointer-events-none
@@ -65,11 +106,8 @@ export const ContactSection = () => {
         "
       />
 
-
       <div className="relative z-10 mx-auto max-w-6xl">
-
         {/* MAIN HEADING */}
-
         <motion.div
           initial={{
             opacity: 0,
@@ -86,7 +124,6 @@ export const ContactSection = () => {
             duration: 0.7,
           }}
         >
-
           <h2
             className="
               max-w-4xl
@@ -100,7 +137,6 @@ export const ContactSection = () => {
             "
           >
             Let's build something{" "}
-
             <span
               className="
                 bg-gradient-to-r
@@ -125,16 +161,12 @@ export const ContactSection = () => {
               sm:text-lg
             "
           >
-            Have a project in mind or want to collaborate?
-            Feel free to reach out. I'm always open to
-            discussing new ideas and opportunities.
+            Have a project in mind or want to collaborate? Feel free to reach
+            out. I'm always open to discussing new ideas and opportunities.
           </p>
-
         </motion.div>
 
-
         {/* CONTACT AREA */}
-
         <div
           className="
             mt-16
@@ -145,9 +177,7 @@ export const ContactSection = () => {
             lg:items-stretch
           "
         >
-
           {/* LEFT SIDE: AI CHATROOM */}
-
           <motion.div
             initial={{
               opacity: 0,
@@ -168,9 +198,7 @@ export const ContactSection = () => {
             <AIChatRoom />
           </motion.div>
 
-
           {/* RIGHT FORM */}
-
           <motion.div
             initial={{
               opacity: 0,
@@ -189,7 +217,6 @@ export const ContactSection = () => {
             }}
             className="w-full h-full flex flex-col"
           >
-
             <div
               className="
                 h-[600px]
@@ -206,9 +233,7 @@ export const ContactSection = () => {
                 dark:bg-white/[0.025]
               "
             >
-
               <div>
-
                 <h3
                   className="
                     text-2xl
@@ -228,16 +253,14 @@ export const ContactSection = () => {
                 >
                   Tell me a little about your project.
                 </p>
-
               </div>
 
-
-              <form className="flex-1 flex flex-col justify-between pt-6 space-y-4" onSubmit={(e) => e.preventDefault()}>
-
+              <form
+                className="flex-1 flex flex-col justify-between pt-6 space-y-4"
+                onSubmit={handleSubmit}
+              >
                 {/* NAME */}
-
                 <div>
-
                   <label
                     htmlFor="name"
                     className="
@@ -254,7 +277,11 @@ export const ContactSection = () => {
                   <input
                     type="text"
                     id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     placeholder="Your Name"
+                    required
                     className="
                       h-12
                       w-full
@@ -274,14 +301,10 @@ export const ContactSection = () => {
                       focus:ring-purple-500/10
                     "
                   />
-
                 </div>
 
-
                 {/* EMAIL */}
-
                 <div>
-
                   <label
                     htmlFor="email"
                     className="
@@ -298,7 +321,11 @@ export const ContactSection = () => {
                   <input
                     type="email"
                     id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="Your Email"
+                    required
                     className="
                       h-12
                       w-full
@@ -318,14 +345,10 @@ export const ContactSection = () => {
                       focus:ring-cyan-500/10
                     "
                   />
-
                 </div>
 
-
                 {/* MESSAGE */}
-
                 <div className="flex-1 flex flex-col min-h-[140px]">
-
                   <label
                     htmlFor="message"
                     className="
@@ -341,7 +364,11 @@ export const ContactSection = () => {
 
                   <textarea
                     id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     placeholder="Hello, I'd like to talk about..."
+                    required
                     className="
                       flex-1
                       w-full
@@ -364,15 +391,13 @@ export const ContactSection = () => {
                       focus:ring-purple-500/10
                     "
                   />
-
                 </div>
 
-
                 {/* BUTTON */}
-
                 <button
                   type="submit"
-                  className="
+                  disabled={status === "sending"}
+                  className={`
                     group
                     flex
                     w-full
@@ -380,47 +405,59 @@ export const ContactSection = () => {
                     justify-center
                     gap-2
                     rounded-xl
-                    bg-gradient-to-r
-                    from-purple-600
-                    via-pink-500
-                    to-cyan-500
                     px-6
                     py-3.5
                     text-sm
                     font-semibold
                     text-white
                     shadow-lg
-                    shadow-purple-500/20
                     transition-all
                     duration-300
                     hover:-translate-y-0.5
-                    hover:shadow-xl
-                    hover:shadow-purple-500/30
-                  "
+                    ${
+                      status === "sent"
+                        ? "bg-emerald-600 shadow-emerald-500/25"
+                        : status === "error"
+                        ? "bg-rose-600 shadow-rose-500/25"
+                        : "bg-gradient-to-r from-purple-600 via-pink-500 to-cyan-500 shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30"
+                    }
+                  `}
                 >
-                  Send Message
-
-                  <Send
-                    size={16}
-                    className="
-                      transition-transform
-                      duration-300
-                      group-hover:translate-x-1
-                    "
-                  />
-
+                  {status === "sending" ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span>Sending...</span>
+                    </>
+                  ) : status === "sent" ? (
+                    <>
+                      <Check className="h-4 w-4" />
+                      <span>Message Sent!</span>
+                    </>
+                  ) : status === "error" ? (
+                    <span className="text-xs sm:text-sm text-center px-1">
+                      {errorMessage.toLowerCase().includes("activation")
+                        ? "Check email & click Activate Form!"
+                        : errorMessage || "Failed to send. Try again"}
+                    </span>
+                  ) : (
+                    <>
+                      <span>Send Message</span>
+                      <Send
+                        size={16}
+                        className="
+                          transition-transform
+                          duration-300
+                          group-hover:translate-x-1
+                        "
+                      />
+                    </>
+                  )}
                 </button>
-
               </form>
-
             </div>
-
           </motion.div>
-
         </div>
-
       </div>
-
     </section>
   );
 };
