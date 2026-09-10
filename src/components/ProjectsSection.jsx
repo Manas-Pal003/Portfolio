@@ -115,7 +115,7 @@ export const ProjectsSection = () => {
         {/* ================================
             SECTION BADGE
         ================================= */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -137,7 +137,7 @@ export const ProjectsSection = () => {
           </span>
           <span className="h-px w-12 bg-gradient-to-r from-purple-500 to-cyan-400" />
           <span className="font-medium">Projects</span>
-        </motion.div>
+        </motion.div> */}
 
         {/* ================================
             HEADING & CATEGORY FILTERS
