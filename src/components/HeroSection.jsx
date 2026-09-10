@@ -16,6 +16,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { motion } from "framer-motion";
 import Hero3D from "./three/Hero3D";
+import ShinyText from "./shinytext/ShinyText";
 
 export const HeroSection = () => {
   const techStack = [
@@ -52,7 +53,7 @@ export const HeroSection = () => {
       border: "border-emerald-500/30",
       text: "text-emerald-300",
       bg: "bg-emerald-500/10",
-      hoverShadow: "hover:shadow-[0_0_15px_rgba(16,185,129,0.35)]",
+      hoverShadow: "hover:shadow-[0_0_15px_rgba(168,85,247,0.35)]",
       icon: <FontAwesomeIcon icon={faNodeJs} className="w-3.5 h-3.5 text-emerald-400" />,
     },
     {
@@ -80,12 +81,10 @@ export const HeroSection = () => {
           animate={{
             opacity: 1,
             x: 0,
-            y: [0, -6, 0],
           }}
           transition={{
-            opacity: { duration: 0.8 },
-            x: { duration: 0.8 },
-            y: { duration: 5, repeat: Infinity, ease: "easeInOut" },
+            duration: 0.8,
+            ease: "easeOut",
           }}
           className="space-y-6 text-left flex flex-col items-start"
         >
@@ -94,19 +93,25 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs sm:text-sm font-medium backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.15)]"
+            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-xs sm:text-sm font-medium backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.15)]"
           >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
-            Full Stack Developer
+            <ShinyText
+              text="Full Stack Developer"
+              disabled={false}
+              speed={3}
+              className="text-xs sm:text-sm font-medium"
+            />
           </motion.div>
+
 
           {/* TITLE */}
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.15] text-left">
-            Hi, I'm <br />
-            <span className="text-white">Manas </span>
+            <ShinyText text="Hi, I'm" disabled={false} speed={3.5} /> <br />
+            <ShinyText text="Manas" disabled={false} speed={3.5} className="mr-3" />
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
               Kumar Pal
             </span>
@@ -140,7 +145,7 @@ export const HeroSection = () => {
               href="#projects"
               className="cosmic-button flex items-center gap-2 font-medium"
             >
-              View My Work
+              <ShinyText text="View My Work" disabled={false} speed={3} />
               <ArrowUpRight size={18} />
             </a>
 
@@ -150,7 +155,7 @@ export const HeroSection = () => {
               rel="noopener noreferrer"
               className="px-6 py-2.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md flex items-center gap-2 hover:bg-white/10 hover:border-white/40 transition duration-300 text-sm font-medium text-white cursor-pointer"
             >
-              Download CV
+              <ShinyText text="Download CV" disabled={false} speed={3} />
               <Download size={18} />
             </a>
           </div>
