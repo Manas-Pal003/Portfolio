@@ -161,7 +161,7 @@ const FormattedMessage = ({ content }) => {
 };
 
 export const AIChatRoom = () => {
-  const [activeTab, setActiveTab] = useState("chat"); // 'chat' | 'info'
+  const [activeTab, setActiveTab] = useState("info"); // 'chat' | 'info'
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -408,7 +408,7 @@ export const AIChatRoom = () => {
           {activeTab === "chat" && (
             <>
               {/* API Key settings modal trigger */}
-              <button
+              {/* <button
                 type="button"
                 onClick={() => {
                   setApiKeyInput(getApiKey());
@@ -419,7 +419,7 @@ export const AIChatRoom = () => {
                 className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/80 text-muted-foreground transition-all hover:border-purple-400/50 hover:bg-purple-500/10 hover:text-purple-400"
               >
                 <Key className="h-3.5 w-3.5" />
-              </button>
+              </button> */}
 
               {/* Reset Conversation */}
               <button
