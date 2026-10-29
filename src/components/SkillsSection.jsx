@@ -53,11 +53,12 @@ export const SkillsSection = () => {
             className="
               mt-3
               text-base
-              text-muted-foreground
+              text-slate-500
+              dark:text-muted-foreground
               sm:text-lg
             "
           >
-            My Profesional Skills
+            My Professional Skills
           </p>
         </motion.div>
 
@@ -99,19 +100,20 @@ export const SkillsSection = () => {
                 flex
                 items-center
                 gap-4
-                rounded-xl
+                rounded-2xl
                 border
-                border-border
-                bg-card/90
-                backdrop-blur-xs
+                border-slate-200/90
+                bg-white/90
+                backdrop-blur-sm
                 p-4
-                shadow-xs
+                shadow-sm
                 transition-all
                 duration-300
 
-                hover:border-purple-400/40
-                hover:shadow-lg
-                hover:shadow-purple-500/5
+                hover:border-purple-400/60
+                hover:bg-white
+                hover:shadow-xl
+                hover:shadow-purple-500/10
 
                 dark:bg-white/[0.03]
                 dark:border-white/[0.08]
@@ -129,15 +131,15 @@ export const SkillsSection = () => {
                   shrink-0
                   items-center
                   justify-center
-                  rounded-lg
+                  rounded-xl
                   border
-                  border-border
-                  bg-muted
+                  border-slate-200/80
+                  bg-slate-100/80
                   p-2.5
                   transition-all
                   duration-300
 
-                  group-hover:border-purple-400/30
+                  group-hover:border-purple-400/40
                   group-hover:bg-purple-500/10
                   dark:border-white/[0.06]
                   dark:bg-white/[0.04]
@@ -171,7 +173,8 @@ export const SkillsSection = () => {
                     truncate
                     text-base
                     font-semibold
-                    text-foreground
+                    text-slate-900
+                    dark:text-foreground
                     transition-colors
                     duration-200
                     group-hover:text-purple-600
@@ -186,8 +189,10 @@ export const SkillsSection = () => {
                   className="
                     mt-1
                     truncate
-                    text-sm
-                    text-muted-foreground
+                    text-xs
+                    sm:text-sm
+                    text-slate-500
+                    dark:text-muted-foreground
                   "
                 >
                   {tool.ket}

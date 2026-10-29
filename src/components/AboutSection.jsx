@@ -102,24 +102,24 @@ export const AboutSection = () => {
           {/* HEADING */}
           <h2 className="text-4xl sm:text-6xl font-extrabold leading-[1.1] tracking-tight text-left">
             About{" "}
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 dark:from-purple-400 dark:via-pink-400 dark:to-cyan-400 bg-clip-text text-transparent">
               Me
             </span>
           </h2>
 
           {/* DESCRIPTION */}
-          <div className="mt-8 space-y-5 text-base sm:text-lg leading-relaxed text-muted-foreground text-left max-w-4xl">
+          <div className="mt-8 space-y-5 text-base sm:text-lg leading-relaxed text-slate-600 dark:text-gray-300 text-left max-w-4xl">
             <p>
               I'm{" "}
-              <span className="font-semibold text-foreground">
+              <span className="font-semibold text-slate-900 dark:text-foreground">
                 Manas Kumar Pal
               </span>
               , a{" "}
-              <span className="font-semibold bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(168,85,247,0.35)]">
+              <span className="font-semibold bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 dark:from-purple-400 dark:via-pink-400 dark:to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(168,85,247,0.25)]">
                 B.Tech
               </span>{" "}
               graduate and{" "}
-              <span className="font-medium text-foreground">
+              <span className="font-semibold text-slate-900 dark:text-foreground">
                 Full Stack Developer
               </span>{" "}
               passionate about building modern, high-performance web applications with intuitive,
@@ -128,11 +128,11 @@ export const AboutSection = () => {
 
             <p>
               I specialize in full-stack technologies including{" "}
-              <span className="text-cyan-300 font-medium">React</span>,{" "}
-              <span className="text-neutral-200 font-medium">Next.js</span>,{" "}
-              <span className="text-sky-300 font-medium">Tailwind CSS</span>,{" "}
-              <span className="text-emerald-300 font-medium">Node.js</span>, and{" "}
-              <span className="text-purple-300 font-medium">
+              <span className="text-cyan-700 dark:text-cyan-300 font-semibold">React</span>,{" "}
+              <span className="text-slate-900 dark:text-neutral-200 font-semibold">Next.js</span>,{" "}
+              <span className="text-sky-700 dark:text-sky-300 font-semibold">Tailwind CSS</span>,{" "}
+              <span className="text-emerald-700 dark:text-emerald-300 font-semibold">Node.js</span>, and{" "}
+              <span className="text-purple-700 dark:text-purple-300 font-semibold">
                 Artificial Intelligence
               </span>
               , blending creativity with technical precision to architect scalable,
@@ -147,28 +147,8 @@ export const AboutSection = () => {
             </p>
           </div>
 
-          {/* ACTION BUTTONS */}
-          {/* <div className="flex flex-wrap items-center gap-4 mt-8">
-            <a
-              href="#contact"
-              className="cosmic-button inline-flex items-center gap-2 font-medium"
-            >
-              Get in Touch
-              <ArrowUpRight className="w-4 h-4" />
-            </a>
-            <a
-              href="/Manas Pal - Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-2.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md flex items-center gap-2 hover:bg-white/10 hover:border-white/40 transition duration-300 text-sm font-medium text-white"
-            >
-              Download CV
-              <Download className="w-4 h-4" />
-            </a>
-          </div> */}
-
           {/* STATS COUNTER */}
-          <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm overflow-hidden">
+          <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 rounded-2xl border border-slate-200/90 bg-white/90 dark:border-white/10 dark:bg-white/[0.02] backdrop-blur-md overflow-hidden shadow-lg shadow-purple-500/5 dark:shadow-none">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
@@ -176,14 +156,14 @@ export const AboutSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.12 }}
-                className={`group p-6 sm:p-8 flex flex-col items-start hover:bg-white/[0.04] transition-all duration-300 ${
+                className={`group p-6 sm:p-8 flex flex-col items-start hover:bg-purple-500/[0.03] dark:hover:bg-white/[0.04] transition-all duration-300 ${
                   index !== 0
-                    ? "border-t border-white/10 sm:border-l sm:border-t-0"
+                    ? "border-t border-slate-200/90 dark:border-white/10 sm:border-l sm:border-t-0"
                     : ""
                 }`}
               >
                 <div className="text-4xl sm:text-5xl font-extrabold tracking-tight transition-transform duration-300 group-hover:scale-105">
-                  <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(168,85,247,0.35)]">
+                  <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 dark:from-purple-400 dark:via-pink-400 dark:to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(168,85,247,0.25)]">
                     <Counter
                       value={stat.numericValue}
                       decimals={stat.decimals}
@@ -192,7 +172,7 @@ export const AboutSection = () => {
                   </span>
                 </div>
 
-                <p className="mt-2 text-xs sm:text-sm font-medium uppercase tracking-[0.08em] text-muted-foreground group-hover:text-neutral-200 transition-colors">
+                <p className="mt-2 text-xs sm:text-sm font-semibold uppercase tracking-[0.08em] text-slate-500 dark:text-muted-foreground group-hover:text-slate-900 dark:group-hover:text-neutral-200 transition-colors">
                   {stat.label}
                 </p>
               </motion.div>

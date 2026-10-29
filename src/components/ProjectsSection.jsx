@@ -160,11 +160,11 @@ export const ProjectsSection = () => {
               "
             >
               Featured{" "}
-              <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 dark:from-purple-500 dark:via-pink-500 dark:to-cyan-400 bg-clip-text text-transparent">
                 Projects
               </span>
             </h2>
-            <p className="mt-3 text-base sm:text-lg font-medium text-muted-foreground max-w-2xl">
+            <p className="mt-3 text-base sm:text-lg font-medium text-slate-600 dark:text-muted-foreground max-w-2xl">
               A curated selection of full-stack applications, intelligent AI
               systems, and responsive web platforms I've designed and built.
             </p>
@@ -185,10 +185,12 @@ export const ProjectsSection = () => {
               p-1.5
               rounded-2xl
               border
-              border-border
-              bg-card/70
+              border-slate-200/90
+              bg-white/80
+              dark:border-border
+              dark:bg-card/70
               backdrop-blur-md
-              shadow-xs
+              shadow-sm
             "
           >
             {projectCategories.map((cat) => {
@@ -211,7 +213,7 @@ export const ProjectsSection = () => {
                     ${
                       isActive
                         ? "text-white"
-                        : "text-muted-foreground hover:text-foreground hover:bg-zinc-100 dark:hover:bg-white/[0.04]"
+                        : "text-slate-600 dark:text-muted-foreground hover:text-slate-900 dark:hover:text-foreground hover:bg-slate-100 dark:hover:bg-white/[0.04]"
                     }
                   `}
                 >
@@ -230,8 +232,8 @@ export const ProjectsSection = () => {
                         bg-gradient-to-r
                         from-purple-600
                         to-indigo-600
-                        shadow-sm
-                        shadow-purple-500/20
+                        shadow-md
+                        shadow-purple-500/25
                       "
                     />
                   )}
@@ -278,13 +280,13 @@ export const ProjectsSection = () => {
                   flex-col
                   rounded-2xl
                   border
-                  border-border
-                  bg-card/90
-                  shadow-xs
+                  border-slate-200/90
+                  bg-white/95
+                  shadow-sm
                   overflow-hidden
                   transition-all
                   duration-300
-                  hover:border-purple-400/50
+                  hover:border-purple-400/60
                   hover:shadow-2xl
                   hover:shadow-purple-500/10
                   dark:bg-[#13141a]/90
@@ -295,7 +297,7 @@ export const ProjectsSection = () => {
                 "
               >
                 {/* PROJECT IMAGE CONTAINER */}
-                <div className="relative h-52 sm:h-56 w-full overflow-hidden bg-muted">
+                <div className="relative h-52 sm:h-56 w-full overflow-hidden bg-slate-100 dark:bg-muted">
                   <img
                     src={project.image}
                     alt={project.title}
@@ -317,11 +319,13 @@ export const ProjectsSection = () => {
                       absolute
                       inset-0
                       bg-gradient-to-t
-                      from-black/80
-                      via-black/20
+                      from-slate-950/70
+                      via-transparent
                       to-transparent
-                      opacity-80
-                      group-hover:opacity-60
+                      dark:from-black/80
+                      dark:via-black/20
+                      opacity-75
+                      group-hover:opacity-50
                       transition-opacity
                       duration-300
                     "
@@ -404,7 +408,8 @@ export const ProjectsSection = () => {
                       text-xl
                       font-bold
                       tracking-tight
-                      text-foreground
+                      text-slate-900
+                      dark:text-foreground
                       transition-colors
                       duration-200
                       group-hover:text-purple-600
@@ -415,17 +420,17 @@ export const ProjectsSection = () => {
                   </h3>
 
                   {/* SUBTITLE */}
-                  <p className="text-xs font-semibold uppercase tracking-wider text-purple-600/80 dark:text-cyan-400/90 mt-1 mb-3">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-purple-700 dark:text-cyan-400 mt-1 mb-3">
                     {project.subtitle}
                   </p>
 
                   {/* DESCRIPTION */}
-                  <p className="text-sm text-muted-foreground leading-relaxed flex-1 line-clamp-3 mb-6">
+                  <p className="text-sm text-slate-600 dark:text-muted-foreground leading-relaxed flex-1 line-clamp-3 mb-6">
                     {project.description}
                   </p>
 
                   {/* ACTION BUTTONS */}
-                  <div className="flex items-center justify-between pt-4 border-t border-border mt-auto">
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-200/80 dark:border-border mt-auto">
                     <a
                       href={project.liveUrl}
                       target="_blank"
@@ -435,7 +440,7 @@ export const ProjectsSection = () => {
                         items-center
                         gap-1.5
                         text-sm
-                        font-medium
+                        font-semibold
                         text-purple-600
                         hover:text-purple-700
                         dark:text-purple-400
@@ -456,9 +461,11 @@ export const ProjectsSection = () => {
                         items-center
                         gap-1.5
                         text-sm
-                        font-medium
-                        text-muted-foreground
-                        hover:text-foreground
+                        font-semibold
+                        text-slate-600
+                        hover:text-slate-900
+                        dark:text-muted-foreground
+                        dark:hover:text-foreground
                         transition-colors
                       "
                     >
@@ -482,9 +489,9 @@ export const ProjectsSection = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-16 text-center"
         >
-          <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-2 pl-4 pr-3 rounded-full border border-border bg-card/60 backdrop-blur-md shadow-xs">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <FolderGit2 className="w-4 h-4 text-purple-500" />
+          <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-2 pl-4 pr-3 rounded-full border border-slate-200/90 bg-white/90 dark:border-border dark:bg-card/60 backdrop-blur-md shadow-md shadow-purple-500/5">
+            <div className="flex items-center gap-2 text-sm text-slate-700 dark:text-muted-foreground font-medium">
+              <FolderGit2 className="w-4 h-4 text-purple-600 dark:text-purple-500" />
               <span>Looking for more open-source projects &amp; experiments?</span>
             </div>
 

@@ -45,7 +45,7 @@ export const Footer = () => {
       icon: faGithub,
       ariaLabel: "Visit Manas's GitHub profile",
       hoverClass:
-        "hover:border-purple-500/60 hover:text-purple-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]",
+        "hover:border-purple-500/60 hover:text-purple-600 dark:hover:text-purple-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]",
       bgGradient:
         "bg-gradient-to-tr from-purple-500/20 via-purple-500/10 to-transparent",
     },
@@ -55,7 +55,7 @@ export const Footer = () => {
       icon: faLinkedin,
       ariaLabel: "Connect with Manas on LinkedIn",
       hoverClass:
-        "hover:border-blue-400/60 hover:text-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.45)]",
+        "hover:border-blue-400/60 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.45)]",
       bgGradient:
         "bg-gradient-to-tr from-blue-500/20 via-blue-500/10 to-transparent",
     },
@@ -65,7 +65,7 @@ export const Footer = () => {
       icon: faInstagram,
       ariaLabel: "Follow Manas on Instagram",
       hoverClass:
-        "hover:border-pink-500/60 hover:text-pink-400 hover:shadow-[0_0_20px_rgba(236,72,153,0.45)]",
+        "hover:border-pink-500/60 hover:text-pink-600 dark:hover:text-pink-400 hover:shadow-[0_0_20px_rgba(236,72,153,0.45)]",
       bgGradient:
         "bg-gradient-to-tr from-pink-500/20 via-rose-500/10 to-transparent",
     },
@@ -75,14 +75,14 @@ export const Footer = () => {
       isMail: true,
       ariaLabel: "Send an email to Manas",
       hoverClass:
-        "hover:border-cyan-400/60 hover:text-cyan-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.45)]",
+        "hover:border-cyan-500/60 hover:text-cyan-600 dark:hover:text-cyan-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.45)]",
       bgGradient:
         "bg-gradient-to-tr from-cyan-500/20 via-teal-500/10 to-transparent",
     },
   ];
 
   return (
-    <footer className="relative border-t border-border/50 bg-background/50 backdrop-blur-xl transition-colors pb-6 sm:pb-6">
+    <footer className="relative border-t border-slate-200/80 dark:border-border/50 bg-white/70 dark:bg-background/50 backdrop-blur-xl transition-colors pb-6 sm:pb-6">
       {/* Top glow line */}
       <div className="pointer-events-none absolute top-0 left-1/2 h-[1.5px] w-full max-w-4xl -translate-x-1/2 bg-gradient-to-r from-transparent via-purple-500/60 via-pink-500/40 to-transparent" />
 
@@ -105,7 +105,7 @@ export const Footer = () => {
 
               <span className="text-sm font-bold tracking-tight text-foreground">
                 <span>Manas</span>{" "}
-                <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 dark:from-purple-500 dark:via-pink-500 dark:to-cyan-400 bg-clip-text text-transparent">
                   Pal
                 </span>
               </span>
@@ -115,13 +115,13 @@ export const Footer = () => {
               ·
             </span>
 
-            <span className="hidden text-xs text-muted-foreground sm:inline">
+            <span className="hidden text-xs text-slate-500 dark:text-muted-foreground sm:inline">
               &copy; {currentYear} All rights reserved.
             </span>
           </div>
 
           {/* Social Links */}
-          <div className="flex items-center gap-2 rounded-2xl border border-border/70 bg-card/40 p-1.5 shadow-xs backdrop-blur-xl">
+          <div className="flex items-center gap-2 rounded-2xl border border-slate-200/80 dark:border-border/70 bg-white/80 dark:bg-card/40 p-1.5 shadow-sm dark:shadow-xs backdrop-blur-xl">
             {socialLinks.map((item) => (
               <a
                 key={item.name}
@@ -140,9 +140,9 @@ export const Footer = () => {
                 className={`
                   group relative flex h-10 w-10
                   items-center justify-center
-                  rounded-xl border border-border/60
-                  bg-background/50
-                  text-muted-foreground
+                  rounded-xl border border-slate-200/70 dark:border-border/60
+                  bg-slate-50/80 dark:bg-background/50
+                  text-slate-600 dark:text-muted-foreground
                   transition-all duration-300
                   hover:-translate-y-1
                   hover:scale-105
@@ -190,7 +190,7 @@ export const Footer = () => {
         </div>
 
         {/* Mobile copyright */}
-        <p className="pt-3 text-center text-xs text-muted-foreground sm:hidden">
+        <p className="pt-3 text-center text-xs text-slate-500 dark:text-muted-foreground sm:hidden">
           &copy; {currentYear} All rights reserved.
         </p>
       </div>

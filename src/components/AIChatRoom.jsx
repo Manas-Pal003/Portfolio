@@ -48,7 +48,7 @@ const formatInlineText = (str) => {
           href={linkMatch[2]}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-cyan-400 hover:text-cyan-300 underline font-medium inline-flex items-center gap-0.5"
+          className="text-cyan-700 hover:text-cyan-800 dark:text-cyan-400 dark:hover:text-cyan-300 underline font-semibold inline-flex items-center gap-0.5"
         >
           {linkMatch[1]}
         </a>
@@ -75,7 +75,7 @@ const formatInlineText = (str) => {
       tokens.push(
         <code
           key={tokens.length}
-          className="rounded bg-purple-500/10 px-1.5 py-0.5 text-[11px] font-mono text-purple-300 border border-purple-500/20"
+          className="rounded bg-purple-500/10 px-1.5 py-0.5 text-[11px] font-mono text-purple-700 dark:text-purple-300 border border-purple-500/20 font-semibold"
         >
           {codeMatch[1]}
         </code>
@@ -322,13 +322,13 @@ export const AIChatRoom = () => {
   };
 
   return (
-    <div className="relative flex flex-col h-[600px] w-full overflow-hidden rounded-3xl border border-purple-500/20 bg-card/60 backdrop-blur-xl shadow-2xl shadow-purple-950/10">
+    <div className="relative flex flex-col h-[600px] w-full overflow-hidden rounded-3xl border border-slate-200/90 dark:border-purple-500/20 bg-white/95 dark:bg-card/60 backdrop-blur-xl shadow-xl shadow-purple-500/5 dark:shadow-2xl dark:shadow-purple-950/10">
       {/* Glow backgrounds */}
       <div className="pointer-events-none absolute -left-16 -top-16 h-36 w-36 rounded-full bg-purple-500/15 blur-2xl" />
       <div className="pointer-events-none absolute -right-16 -bottom-16 h-36 w-36 rounded-full bg-cyan-500/15 blur-2xl" />
 
       {/* CHAT TERMINAL HEADER */}
-      <div className="relative z-10 flex items-center justify-between border-b border-border/80 bg-background/50 px-5 py-3.5 backdrop-blur-md">
+      <div className="relative z-10 flex items-center justify-between border-b border-slate-200/80 dark:border-border/80 bg-slate-50/80 dark:bg-background/50 px-5 py-3.5 backdrop-blur-md">
         <div className="flex items-center gap-3">
           <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-purple-600 via-pink-500 to-cyan-500 text-white shadow-md shadow-purple-500/20">
             <Bot className="h-5 w-5" />
@@ -340,7 +340,7 @@ export const AIChatRoom = () => {
 
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-foreground">
+              <span className="text-sm font-bold text-slate-900 dark:text-foreground">
                 Manas AI
               </span>
               {/* Status Badge: Gemini Live vs Local Portfolio AI */}
@@ -353,39 +353,39 @@ export const AIChatRoom = () => {
                 title="Click to configure Gemini API Key"
                 className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold transition-all ${
                   hasApiKey
-                    ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25"
-                    : "bg-purple-500/10 text-purple-400 border border-purple-500/20 hover:bg-purple-500/20"
+                    ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25"
+                    : "bg-purple-500/10 text-purple-700 dark:text-purple-400 border border-purple-500/20 hover:bg-purple-500/20"
                 }`}
               >
                 {hasApiKey ? (
                   <>
-                    <Sparkles className="h-2.5 w-2.5 text-emerald-400" />
+                    <Sparkles className="h-2.5 w-2.5 text-emerald-600 dark:text-emerald-400" />
                     <span>Gemini Live</span>
                   </>
                 ) : (
                   <>
-                    <Cpu className="h-2.5 w-2.5 text-purple-400" />
+                    <Cpu className="h-2.5 w-2.5 text-purple-600 dark:text-purple-400" />
                     <span>Portfolio AI</span>
                   </>
                 )}
               </button>
             </div>
-            <p className="text-[11px] text-muted-foreground flex items-center gap-1">
-              <span>Ask anything about Manas & his work</span>
+            <p className="text-[11px] text-slate-500 dark:text-muted-foreground flex items-center gap-1">
+              <span>Ask anything about Manas &amp; his work</span>
             </p>
           </div>
         </div>
 
         {/* View Switcher Tabs, Key Settings & Reset */}
         <div className="flex items-center gap-1.5">
-          <div className="flex items-center rounded-xl border border-border/80 bg-background/80 p-0.5 text-xs font-medium">
+          <div className="flex items-center rounded-xl border border-slate-200 dark:border-border/80 bg-slate-100/90 dark:bg-background/80 p-0.5 text-xs font-medium">
             <button
               type="button"
               onClick={() => setActiveTab("chat")}
               className={`flex items-center gap-1 rounded-lg px-2.5 py-1 transition-all ${
                 activeTab === "chat"
                   ? "bg-purple-600 text-white shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
+                  : "text-slate-600 dark:text-muted-foreground hover:text-slate-900 dark:hover:text-foreground"
               }`}
             >
               <MessageSquare className="h-3 w-3" />
@@ -397,7 +397,7 @@ export const AIChatRoom = () => {
               className={`flex items-center gap-1 rounded-lg px-2.5 py-1 transition-all ${
                 activeTab === "info"
                   ? "bg-purple-600 text-white shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
+                  : "text-slate-600 dark:text-muted-foreground hover:text-slate-900 dark:hover:text-foreground"
               }`}
             >
               <User className="h-3 w-3" />
@@ -407,27 +407,13 @@ export const AIChatRoom = () => {
 
           {activeTab === "chat" && (
             <>
-              {/* API Key settings modal trigger */}
-              {/* <button
-                type="button"
-                onClick={() => {
-                  setApiKeyInput(getApiKey());
-                  setIsKeyModalOpen(true);
-                }}
-                title="Configure Gemini API Key"
-                aria-label="Configure Gemini API Key"
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/80 text-muted-foreground transition-all hover:border-purple-400/50 hover:bg-purple-500/10 hover:text-purple-400"
-              >
-                <Key className="h-3.5 w-3.5" />
-              </button> */}
-
               {/* Reset Conversation */}
               <button
                 type="button"
                 onClick={handleResetChat}
                 title="Reset conversation"
                 aria-label="Reset conversation"
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/80 text-muted-foreground transition-all hover:border-purple-400/50 hover:bg-purple-500/10 hover:text-purple-400"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 dark:border-border/80 text-slate-500 dark:text-muted-foreground transition-all hover:border-purple-400/50 hover:bg-purple-500/10 hover:text-purple-600 dark:hover:text-purple-400"
               >
                 <RotateCcw className="h-3.5 w-3.5" />
               </button>
@@ -477,7 +463,7 @@ export const AIChatRoom = () => {
                       className={`rounded-2xl px-4 py-3 text-xs sm:text-sm leading-relaxed ${
                         msg.sender === "user"
                           ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md shadow-purple-600/20 rounded-tr-sm"
-                          : "bg-background/80 border border-border/80 text-foreground backdrop-blur-sm shadow-sm rounded-tl-sm"
+                          : "bg-slate-50 dark:bg-background/80 border border-slate-200/90 dark:border-border/80 text-slate-800 dark:text-foreground backdrop-blur-sm shadow-sm rounded-tl-sm"
                       }`}
                     >
                       {msg.sender === "user" ? (
@@ -501,10 +487,10 @@ export const AIChatRoom = () => {
                         onClick={() => handleCopyMessage(msg.id, msg.text)}
                         title="Copy message"
                         aria-label="Copy message text"
-                        className="opacity-0 group-hover:opacity-100 transition-opacity absolute top-2 right-2 p-1 rounded-md bg-background/90 text-muted-foreground hover:text-foreground border border-border/80 shadow-sm"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity absolute top-2 right-2 p-1 rounded-md bg-white dark:bg-background/90 text-slate-600 dark:text-muted-foreground hover:text-slate-900 dark:hover:text-foreground border border-slate-200 dark:border-border/80 shadow-sm"
                       >
                         {copiedMessageId === msg.id ? (
-                          <Check className="h-3 w-3 text-emerald-400" />
+                          <Check className="h-3 w-3 text-emerald-500" />
                         ) : (
                           <Copy className="h-3 w-3" />
                         )}
@@ -523,7 +509,7 @@ export const AIChatRoom = () => {
                         onClick={() =>
                           handleSendMessage(sug.replace(/^[^\w]+/, ""))
                         }
-                        className="rounded-full border border-purple-500/20 bg-purple-500/5 px-2.5 py-1 text-[11px] font-medium text-purple-600 transition-all hover:border-purple-400 hover:bg-purple-500/15 dark:text-purple-300"
+                        className="rounded-full border border-purple-500/20 bg-purple-500/10 dark:bg-purple-500/5 px-2.5 py-1 text-[11px] font-medium text-purple-700 dark:text-purple-300 transition-all hover:border-purple-400 hover:bg-purple-500/20"
                       >
                         {sug}
                       </button>
@@ -539,7 +525,7 @@ export const AIChatRoom = () => {
                 <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 text-white">
                   <Bot className="h-3.5 w-3.5" />
                 </div>
-                <div className="flex items-center gap-1.5 rounded-2xl rounded-tl-sm border border-border/80 bg-background/80 px-4 py-2.5 text-xs text-muted-foreground backdrop-blur-sm">
+                <div className="flex items-center gap-1.5 rounded-2xl rounded-tl-sm border border-slate-200 dark:border-border/80 bg-slate-50 dark:bg-background/80 px-4 py-2.5 text-xs text-muted-foreground backdrop-blur-sm">
                   <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-purple-400" />
                   <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-pink-400 [animation-delay:0.2s]" />
                   <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-cyan-400 [animation-delay:0.4s]" />
@@ -554,15 +540,15 @@ export const AIChatRoom = () => {
           </div>
 
           {/* CHAT INPUT FORM */}
-          <div className="border-t border-border/80 bg-background/40 p-3 backdrop-blur-md">
-            <div className="flex items-center gap-2 rounded-2xl border border-border/80 bg-background/80 px-3 py-1.5 transition-all focus-within:border-purple-400 focus-within:ring-2 focus-within:ring-purple-500/10">
+          <div className="border-t border-slate-200/80 dark:border-border/80 bg-slate-50/70 dark:bg-background/40 p-3 backdrop-blur-md">
+            <div className="flex items-center gap-2 rounded-2xl border border-slate-200 dark:border-border/80 bg-white dark:bg-background/80 px-3 py-1.5 transition-all focus-within:border-purple-500 focus-within:ring-2 focus-within:ring-purple-500/10">
               <input
                 type="text"
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Ask about projects, tech stack, hiring, or contact..."
-                className="w-full bg-transparent text-xs sm:text-sm text-foreground outline-none placeholder:text-muted-foreground"
+                className="w-full bg-transparent text-xs sm:text-sm text-foreground outline-none placeholder:text-slate-400 dark:placeholder:text-muted-foreground"
               />
               <button
                 type="button"
@@ -579,19 +565,6 @@ export const AIChatRoom = () => {
               </button>
             </div>
             <div className="mt-1.5 flex items-center justify-between px-1 text-[10px] text-muted-foreground">
-              {/* <span>
-                {hasApiKey ? "⚡ Powered by Google Gemini" : "🤖 Smart Portfolio AI Engine"}
-              </span> */}
-              {/* <button
-                type="button"
-                onClick={() => {
-                  setApiKeyInput(getApiKey());
-                  setIsKeyModalOpen(true);
-                }}
-                className="text-purple-400 hover:text-purple-300 transition-colors underline"
-              >
-                {hasApiKey ? "Manage Key" : "Add Gemini Key"}
-              </button> */}
             </div>
           </div>
         </div>
@@ -601,26 +574,26 @@ export const AIChatRoom = () => {
       {activeTab === "info" && (
         <div className="relative z-10 flex flex-1 flex-col overflow-y-auto no-scrollbar p-6 space-y-6">
           <div>
-            <h3 className="text-xl font-bold text-foreground">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-foreground">
               Direct Contact
             </h3>
-            <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+            <p className="mt-1 text-xs text-slate-500 dark:text-muted-foreground leading-relaxed">
               Prefer direct outreach? You can reach Manas anytime via email, phone, or social profiles.
             </p>
           </div>
 
           <div className="space-y-4">
             {/* EMAIL */}
-            <div className="flex items-center justify-between rounded-2xl border border-border/80 bg-background/50 p-3.5">
+            <div className="flex items-center justify-between rounded-2xl border border-slate-200/90 dark:border-border/80 bg-slate-50/80 hover:bg-slate-100/80 dark:bg-background/50 dark:hover:bg-background/70 p-3.5 transition-colors">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400">
                   <Mail className="h-4 w-4" />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase font-semibold text-muted-foreground">Email</p>
+                  <p className="text-[10px] uppercase font-bold text-slate-500 dark:text-muted-foreground">Email</p>
                   <a
                     href="mailto:manaspal28313@gmail.com"
-                    className="text-xs font-medium text-foreground hover:text-purple-500 transition-colors"
+                    className="text-xs font-semibold text-slate-900 dark:text-foreground hover:text-purple-600 transition-colors"
                   >
                     manaspal28313@gmail.com
                   </a>
@@ -629,7 +602,7 @@ export const AIChatRoom = () => {
               <button
                 type="button"
                 onClick={handleCopyEmail}
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-muted-foreground hover:text-purple-500 hover:border-purple-400"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 dark:border-border text-slate-500 dark:text-muted-foreground hover:text-purple-600 hover:border-purple-400"
                 title="Copy email"
               >
                 {copiedEmail ? (
@@ -641,15 +614,15 @@ export const AIChatRoom = () => {
             </div>
 
             {/* PHONE */}
-            <div className="flex items-center gap-3 rounded-2xl border border-border/80 bg-background/50 p-3.5">
+            <div className="flex items-center gap-3 rounded-2xl border border-slate-200/90 dark:border-border/80 bg-slate-50/80 hover:bg-slate-100/80 dark:bg-background/50 dark:hover:bg-background/70 p-3.5 transition-colors">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400">
                 <Phone className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-[10px] uppercase font-semibold text-muted-foreground">Phone</p>
+                <p className="text-[10px] uppercase font-bold text-slate-500 dark:text-muted-foreground">Phone</p>
                 <a
                   href="tel:+919749425251"
-                  className="text-xs font-medium text-foreground hover:text-cyan-500 transition-colors"
+                  className="text-xs font-semibold text-slate-900 dark:text-foreground hover:text-cyan-600 transition-colors"
                 >
                   +91 9749425251
                 </a>
@@ -657,13 +630,13 @@ export const AIChatRoom = () => {
             </div>
 
             {/* LOCATION */}
-            <div className="flex items-center gap-3 rounded-2xl border border-border/80 bg-background/50 p-3.5">
+            <div className="flex items-center gap-3 rounded-2xl border border-slate-200/90 dark:border-border/80 bg-slate-50/80 dark:bg-background/50 p-3.5">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-500/10 text-pink-600 dark:text-pink-400">
                 <MapPin className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-[10px] uppercase font-semibold text-muted-foreground">Location</p>
-                <p className="text-xs font-medium text-foreground">
+                <p className="text-[10px] uppercase font-bold text-slate-500 dark:text-muted-foreground">Location</p>
+                <p className="text-xs font-semibold text-slate-900 dark:text-foreground">
                   Kolkata, West Bengal, India
                 </p>
               </div>
@@ -672,7 +645,7 @@ export const AIChatRoom = () => {
 
           {/* SOCIALS */}
           <div className="pt-2">
-            <p className="text-[10px] uppercase font-semibold text-muted-foreground mb-2.5">
+            <p className="text-[10px] uppercase font-bold text-slate-500 dark:text-muted-foreground mb-2.5">
               Social Profiles
             </p>
             <div className="flex items-center gap-2">
@@ -680,7 +653,7 @@ export const AIChatRoom = () => {
                 href="https://github.com/Manas-Pal003"
                 target="_blank"
                 rel="noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-background/80 text-muted-foreground hover:text-purple-400 hover:border-purple-400 hover:-translate-y-0.5 transition-all"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 dark:border-border bg-white dark:bg-background/80 text-slate-600 dark:text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-400 hover:-translate-y-0.5 transition-all"
                 aria-label="GitHub"
               >
                 <FontAwesomeIcon icon={faGithub} className="h-4 w-4" />
@@ -689,21 +662,21 @@ export const AIChatRoom = () => {
                 href="https://www.linkedin.com/in/manas-pal-a60674309/"
                 target="_blank"
                 rel="noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-background/80 text-muted-foreground hover:text-blue-400 hover:border-blue-400 hover:-translate-y-0.5 transition-all"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 dark:border-border bg-white dark:bg-background/80 text-slate-600 dark:text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:-translate-y-0.5 transition-all"
                 aria-label="LinkedIn"
               >
                 <FontAwesomeIcon icon={faLinkedin} className="h-4 w-4" />
               </a>
               <a
                 href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-background/80 text-muted-foreground hover:text-pink-400 hover:border-pink-400 hover:-translate-y-0.5 transition-all"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 dark:border-border bg-white dark:bg-background/80 text-slate-600 dark:text-muted-foreground hover:text-pink-600 dark:hover:text-pink-400 hover:border-pink-400 hover:-translate-y-0.5 transition-all"
                 aria-label="Instagram"
               >
                 <FontAwesomeIcon icon={faInstagram} className="h-4 w-4" />
               </a>
               <a
                 href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-background/80 text-muted-foreground hover:text-blue-500 hover:border-blue-500 hover:-translate-y-0.5 transition-all"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 dark:border-border bg-white dark:bg-background/80 text-slate-600 dark:text-muted-foreground hover:text-blue-600 dark:hover:text-blue-500 hover:border-blue-500 hover:-translate-y-0.5 transition-all"
                 aria-label="Facebook"
               >
                 <FontAwesomeIcon icon={faFacebook} className="h-4 w-4" />
@@ -715,7 +688,7 @@ export const AIChatRoom = () => {
           <button
             type="button"
             onClick={() => setActiveTab("chat")}
-            className="w-full flex items-center justify-center gap-2 rounded-xl bg-purple-500/10 border border-purple-500/30 py-2.5 text-xs font-semibold text-purple-600 dark:text-purple-400 hover:bg-purple-500/20 transition-all"
+            className="w-full flex items-center justify-center gap-2 rounded-xl bg-purple-500/10 border border-purple-500/30 py-2.5 text-xs font-semibold text-purple-700 dark:text-purple-400 hover:bg-purple-500/20 transition-all"
           >
             <MessageSquare className="h-3.5 w-3.5" />
             <span>Switch to AI Chatroom</span>
@@ -726,8 +699,8 @@ export const AIChatRoom = () => {
       {/* API KEY SETTINGS MODAL */}
       {isKeyModalOpen && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md p-4">
-          <div className="w-full max-w-sm rounded-2xl border border-purple-500/30 bg-card p-5 shadow-2xl shadow-purple-950/40 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between pb-3 border-b border-border/80">
+          <div className="w-full max-w-sm rounded-2xl border border-slate-200 dark:border-purple-500/30 bg-white dark:bg-card p-5 shadow-2xl shadow-purple-950/20 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200/80 dark:border-border/80">
               <div className="flex items-center gap-2">
                 <div className="p-1.5 rounded-lg bg-purple-500/10 text-purple-400">
                   <Key className="h-4 w-4" />
@@ -759,7 +732,7 @@ export const AIChatRoom = () => {
                   value={apiKeyInput}
                   onChange={(e) => setApiKeyInput(e.target.value)}
                   placeholder="AIzaSy..."
-                  className="w-full rounded-xl border border-border/80 bg-background/80 px-3 py-2 text-xs text-foreground outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 font-mono"
+                  className="w-full rounded-xl border border-slate-200 dark:border-border/80 bg-slate-50 dark:bg-background/80 px-3 py-2 text-xs text-foreground outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 font-mono"
                 />
               </div>
 
@@ -768,7 +741,7 @@ export const AIChatRoom = () => {
                   href="https://aistudio.google.com/app/apikey"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-cyan-400 hover:underline"
+                  className="inline-flex items-center gap-1 text-cyan-600 dark:text-cyan-400 hover:underline font-medium"
                 >
                   <span>Get free key at Google AI Studio</span>
                   <ExternalLink className="h-3 w-3" />
@@ -776,7 +749,7 @@ export const AIChatRoom = () => {
               </div>
 
               {keyFeedback && (
-                <div className="rounded-lg bg-purple-500/10 border border-purple-500/20 p-2 text-center text-[11px] font-medium text-purple-300">
+                <div className="rounded-lg bg-purple-500/10 border border-purple-500/20 p-2 text-center text-[11px] font-medium text-purple-700 dark:text-purple-300">
                   {keyFeedback}
                 </div>
               )}

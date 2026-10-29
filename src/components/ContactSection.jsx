@@ -140,9 +140,12 @@ export const ContactSection = () => {
             <span
               className="
                 bg-gradient-to-r
-                from-purple-500
-                via-pink-500
-                to-cyan-400
+                from-purple-600
+                via-pink-600
+                to-cyan-600
+                dark:from-purple-500
+                dark:via-pink-500
+                dark:to-cyan-400
                 bg-clip-text
                 text-transparent
               "
@@ -157,7 +160,8 @@ export const ContactSection = () => {
               max-w-2xl
               text-base
               leading-7
-              text-muted-foreground
+              text-slate-600
+              dark:text-muted-foreground
               sm:text-lg
             "
           >
@@ -223,14 +227,16 @@ export const ContactSection = () => {
                 flex
                 flex-col
                 justify-between
-                rounded-2xl
+                rounded-3xl
                 border
-                border-border
-                bg-card
+                border-slate-200/90
+                bg-white/95
                 p-6
-                shadow-sm
+                shadow-xl
+                shadow-purple-500/5
                 sm:p-8
                 dark:bg-white/[0.025]
+                dark:border-white/10
               "
             >
               <div>
@@ -238,7 +244,8 @@ export const ContactSection = () => {
                   className="
                     text-2xl
                     font-bold
-                    text-foreground
+                    text-slate-900
+                    dark:text-foreground
                   "
                 >
                   Send Me a Message
@@ -248,7 +255,8 @@ export const ContactSection = () => {
                   className="
                     mt-2
                     text-sm
-                    text-muted-foreground
+                    text-slate-500
+                    dark:text-muted-foreground
                   "
                 >
                   Tell me a little about your project.
@@ -267,8 +275,9 @@ export const ContactSection = () => {
                       mb-2
                       block
                       text-sm
-                      font-medium
-                      text-foreground
+                      font-semibold
+                      text-slate-800
+                      dark:text-foreground
                     "
                   >
                     Name
@@ -287,18 +296,24 @@ export const ContactSection = () => {
                       w-full
                       rounded-xl
                       border
-                      border-border
-                      bg-background
+                      border-slate-200
+                      dark:border-border
+                      bg-slate-50/70
+                      dark:bg-background
                       px-4
                       text-sm
                       text-foreground
                       outline-none
-                      placeholder:text-muted-foreground
+                      placeholder:text-slate-400
+                      dark:placeholder:text-muted-foreground
                       transition-all
                       duration-200
-                      focus:border-purple-400
-                      focus:ring-2
+                      focus:border-purple-500
+                      focus:bg-white
+                      dark:focus:bg-background
+                      focus:ring-4
                       focus:ring-purple-500/10
+                      shadow-xs
                     "
                   />
                 </div>
@@ -311,8 +326,9 @@ export const ContactSection = () => {
                       mb-2
                       block
                       text-sm
-                      font-medium
-                      text-foreground
+                      font-semibold
+                      text-slate-800
+                      dark:text-foreground
                     "
                   >
                     Email
@@ -331,18 +347,24 @@ export const ContactSection = () => {
                       w-full
                       rounded-xl
                       border
-                      border-border
-                      bg-background
+                      border-slate-200
+                      dark:border-border
+                      bg-slate-50/70
+                      dark:bg-background
                       px-4
                       text-sm
                       text-foreground
                       outline-none
-                      placeholder:text-muted-foreground
+                      placeholder:text-slate-400
+                      dark:placeholder:text-muted-foreground
                       transition-all
                       duration-200
-                      focus:border-cyan-400
-                      focus:ring-2
+                      focus:border-cyan-500
+                      focus:bg-white
+                      dark:focus:bg-background
+                      focus:ring-4
                       focus:ring-cyan-500/10
+                      shadow-xs
                     "
                   />
                 </div>
@@ -355,8 +377,9 @@ export const ContactSection = () => {
                       mb-2
                       block
                       text-sm
-                      font-medium
-                      text-foreground
+                      font-semibold
+                      text-slate-800
+                      dark:text-foreground
                     "
                   >
                     Message
@@ -375,20 +398,26 @@ export const ContactSection = () => {
                       resize-none
                       rounded-xl
                       border
-                      border-border
-                      bg-background
+                      border-slate-200
+                      dark:border-border
+                      bg-slate-50/70
+                      dark:bg-background
                       px-4
                       py-3
                       text-sm
                       leading-6
                       text-foreground
                       outline-none
-                      placeholder:text-muted-foreground
+                      placeholder:text-slate-400
+                      dark:placeholder:text-muted-foreground
                       transition-all
                       duration-200
-                      focus:border-purple-400
-                      focus:ring-2
+                      focus:border-purple-500
+                      focus:bg-white
+                      dark:focus:bg-background
+                      focus:ring-4
                       focus:ring-purple-500/10
+                      shadow-xs
                     "
                   />
                 </div>
